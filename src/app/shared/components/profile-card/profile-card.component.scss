@@ -1,0 +1,33 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+
+  .initial-btn {
+    cursor: default;
+  }
+  .info {
+    margin: 20px 20px 0 20px;
+
+    p{
+      cursor: default;
+    }
+    #name {
+      font-weight: 500;
+      margin: 0;
+      font-size: 1rem;
+    }
+    #email {
+      font-weight: 300;
+    }
+    #username {
+      font-weight: 300;
+    }
+  }
+}
+
+.initial-btn{
+  background-color: #2c487e;
+  color: white;
+}

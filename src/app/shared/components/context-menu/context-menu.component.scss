@@ -1,0 +1,13 @@
+.mat-menu-item {
+  line-height: 2rem !important;
+  height: 2rem !important;
+}
+
+::ng-deep .mat-menu-content:not(:empty) {
+  padding-top: 3px !important;
+  padding-bottom: 3px !important;
+}
+
+::ng-deep .mat-menu-panel {
+  min-height: 10px;
+}

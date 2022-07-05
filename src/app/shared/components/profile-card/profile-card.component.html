@@ -1,0 +1,40 @@
+<button mat-mini-fab [matMenuTriggerFor]="profile" class="initial-btn">
+  {{ user.name.charAt(0).toUpperCase()
+  }}{{ user.surnames.charAt(0).toUpperCase() }}
+</button>
+<mat-menu #profile="matMenu">
+  <div class="container">
+    <div class="full">
+      <button mat-fab color="primary" class="initial-btn">
+        {{ user.name.charAt(0).toUpperCase()
+        }}{{ user.surnames.charAt(0).toUpperCase() }}
+      </button>
+    </div>
+
+    <div class="info">
+      <p id="name">{{ user.name }} {{ user.surnames }}</p>
+      <p id="email">{{ user.email }}</p>
+      <p id="username">Nombre de usuario: {{ user.username }}</p>
+    </div>
+
+    <div class="full">
+      <button
+        *ngIf="user.role === 'admin'"
+        mat-icon-button
+        color="primary"
+        matTooltip="Editar"
+        (click)="edit()"
+      >
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        color="primary"
+        matTooltip="Cerrar sesión"
+        (click)="logout()"
+      >
+        <mat-icon>logout</mat-icon>
+      </button>
+    </div>
+  </div>
+</mat-menu>

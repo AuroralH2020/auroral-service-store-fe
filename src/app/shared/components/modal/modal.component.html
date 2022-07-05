@@ -1,0 +1,19 @@
+<h1 mat-dialog-title>{{ config.title }}</h1>
+<mat-dialog-content>
+  {{ config.message }}
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <ng-container *ngIf="config.type === 'confirmation'; else acceptButton">
+    <button color="primary" mat-button [mat-dialog-close]="true">
+      <mat-icon>done</mat-icon>Aceptar
+    </button>
+    <button color="warn" mat-button [mat-dialog-close]="false">
+      <mat-icon>close</mat-icon>Cancelar
+    </button>
+  </ng-container>
+  <ng-template #acceptButton>
+    <button color="primary" mat-button mat-dialog-close>
+      <mat-icon>done</mat-icon>Aceptar
+    </button>
+  </ng-template>
+</mat-dialog-actions>

@@ -1,0 +1,15 @@
+@use '@angular/material' as mat;
+@import 'variables.scss';
+
+.success {
+  color: white;
+  background-color: #198754;
+}
+
+.error {
+  color: white;
+  background-color: mat.get-color-from-palette($warn);
+  button {
+    color: white;
+  }
+}

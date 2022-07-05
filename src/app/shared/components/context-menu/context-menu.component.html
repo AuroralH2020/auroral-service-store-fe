@@ -1,0 +1,17 @@
+<div
+  style="visibility: hidden; position: fixed"
+  [style.left]="menuPosition.x"
+  [style.top]="menuPosition.y"
+  [matMenuTriggerFor]="menu"
+></div>
+<mat-menu #menu="matMenu">
+  <button
+    mat-menu-item
+    *ngFor="let item of items"
+    [disabled]="item.disabled"
+    (click)="emit(item.name)"
+  >
+    <mat-icon *ngIf="item.icon">{{ item.icon }}</mat-icon>
+    <span>{{ item.text }}</span>
+  </button>
+</mat-menu>

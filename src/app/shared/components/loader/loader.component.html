@@ -1,0 +1,4 @@
+<app-spinner *ngIf="loading"></app-spinner>
+<div *ngIf="!loading" class="animated fadeIn">
+  <ng-content #content></ng-content>
+</div>

@@ -1,0 +1,61 @@
+@use '@angular/material' as mat;
+@import 'theming.scss';
+@import 'variables.scss';
+
+/* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+  height: 100%;
+  background-color: #e8e8e8;
+  margin: 0;
+}
+
+.mat-drawer-content,
+.mat-drawer-container {
+  height: 100%;
+}
+
+.header {
+  font-size: 15px;
+  font-weight: bold;
+  color: mat.get-color-from-palette($primary);
+}
+
+.thin-form-field {
+  .mat-form-field-wrapper {
+    padding-bottom: 0 !important;
+  }
+
+  .mat-form-field-infix {
+    border-top: 0;
+    padding-bottom: 0.5em !important;
+  }
+  .mat-select-arrow-wrapper {
+    padding-top: 5px;
+  }
+  &.mat-form-field-appearance-outline .mat-form-field-outline {
+    background: white;
+    border-radius: 5px;
+  }
+  &.mat-form-field-appearance-outline.mat-form-field-disabled
+    .mat-form-field-outline {
+    background: #e1e1e1;
+    border-radius: 5px;
+  }
+}
+
+.mat-chip-list-wrapper {
+  margin: 0 !important;
+}
+
+.mat-dialog-content {
+  &::-webkit-scrollbar {
+    width: 9px;
+    height: 9px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 4px;
+  }
+}

@@ -1,0 +1,31 @@
+@use '@angular/material' as mat;
+@import 'variables.scss';
+
+.full-width-table {
+  width: 100%;
+}
+
+.header {
+  background: mat.get-color-from-palette($primary);
+
+  .header-cell {
+    color: white;
+  }
+}
+
+.text {
+  margin: 0;
+}
+
+.table-form-field {
+  width: 90%;
+}
+
+.actions {
+  width: 5rem;
+  text-align: center;
+}
+
+.thin-form-field ::ng-deep.mat-form-field-infix {
+  width: auto;
+}

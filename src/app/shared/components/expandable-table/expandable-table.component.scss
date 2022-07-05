@@ -1,0 +1,76 @@
+@use '@angular/material' as mat;
+@import 'variables.scss';
+
+.table-container {
+  max-height: 80vh;
+  overflow: auto;
+  padding: 1em;
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 4px;
+  }
+}
+
+table {
+  width: 100%;
+}
+
+tr.detail-row {
+  height: 0;
+}
+
+tr.element-row:not(.expanded-row):hover {
+  background: whitesmoke;
+}
+
+tr.element-row:not(.expanded-row):active {
+  background: #efefef;
+}
+
+.element-row td {
+  border-bottom-width: 0;
+}
+
+.element-detail {
+  overflow: hidden;
+  width: 100%;
+}
+
+.mat-header-row {
+  background: mat.get-color-from-palette($primary);
+  .mat-header-cell {
+    color: white;
+  }
+}
+
+.actions {
+  width: 8rem;
+  text-align: center;
+}
+
+.paginator {
+  background: white;
+  font-size: 12px;
+  .spacer {
+    flex: 1 1 auto;
+  }
+
+  .filter {
+    margin-left: 1rem;
+  }
+}
+
+.thin-form-field ::ng-deep.mat-form-field-infix {
+  width: auto;
+}
+
+mat-form-field {
+  width: 95%;
+}
+
+.mat-standard-chip {
+  min-height: 20px;
+}
