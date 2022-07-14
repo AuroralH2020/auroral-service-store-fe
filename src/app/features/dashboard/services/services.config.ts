@@ -13,7 +13,7 @@ export const servicesConfig: ITableConfig = {
     { name: 'Domain', prop: 'domain', type: 'text' },
     { name: 'Subdomain', prop: 'subdomain', type: 'text' },
     { name: 'Funcionalities', prop: 'funcionalitiesShow', type: 'text' },
-    { name: 'Geographycal restrictions', prop: 'location', type: 'text' },
+    { name: 'Geographical restrictions', prop: 'location', type: 'text' },
     { name: 'Link to the service', prop: 'linkShow', type: 'text' },
     { name: 'Is free', prop: 'freeText', type: 'text' },
   ],
@@ -46,7 +46,6 @@ export const formFields = [
   { label: 'Is free', property: 'free', type: 'boolean' },
   { label: 'Version', property: 'versionOfService', type: 'text' },
   { label: 'Number of downloads', property: 'numberOfDownloads', type: 'number' },
-  
-  
+  { label: 'Keywords', property: 'all', type: 'text' }, 
 ];  
-
+ 

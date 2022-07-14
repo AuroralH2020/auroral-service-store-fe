@@ -10,8 +10,6 @@ import { formFields, servicesConfig } from './services.config';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TableComponent } from '@shared/components/table/table.component';
 
-import { isThisHour } from 'date-fns';
-
 @Component({
   selector: 'app-services',
   templateUrl: './services.component.html',
@@ -70,7 +68,6 @@ export class ServicesComponent implements OnInit {
         field.property,
         new FormControl('', Validators.required)
       );
-
     });
     this.fetchServices();
   }
@@ -200,6 +197,45 @@ export class ServicesComponent implements OnInit {
           }
         }
 
+        if (key == 'all') {
+          if (this.filterFormGroup.controls[key].value != '') {
+            console.log('Se hace el filtro para all', data);
+            let find = false;
+            let text = this.filterFormGroup.controls[key].value.toLowerCase();
+            find = data.title.toLowerCase().includes(text) || find;
+            if (data.description)
+              find = data.description.toLowerCase().includes(text) || find;
+            find = data.provider.toLowerCase().includes(text) || find;
+            if (data.lastUpdated)
+              find = data.lastUpdated.toString().toLowerCase().includes(text) || find;
+            if (data.statusDevelopment)
+              find = data.statusDevelopment.toLowerCase().includes(text) || find;
+            if (data.domain)
+              find = data.domain.toString().toLowerCase().includes(text) || find;
+            if (data.funcionalities)
+              find = data.funcionalities.toString().toLowerCase().includes(text) || find;
+            if (data.location)
+              find = data.location.toLowerCase().includes(text) || find;
+            if (data.serviceRequirements)
+              find = data.serviceRequirements.toLowerCase().includes(text) || find;
+            if (data.link)
+              find = data.link.toLowerCase().includes(text) || find;
+            if (data.language)
+              find = data.language.toString().toLowerCase().includes(text) || find;
+            if (data.subdomain)
+              find = data.subdomain.toString().toLowerCase().includes(text) || find;
+            if (data.free != undefined){
+              console.log(text);
+              find = (data.free && text == 'yes') || (!data.free && text == 'no') || find;
+            }
+            if (data.versionOfService)
+              find = data.versionOfService.toLowerCase().includes(text) || find;
+            if (data.numberOfDownloads)
+              find = data.numberOfDownloads.toString().toLowerCase().includes(text) || find;
+            if (!find)
+              return false;
+          }
+        }
       }
       return true;
     };
@@ -405,7 +441,8 @@ export class ServicesComponent implements OnInit {
           subdomain: aux.subdomain,
           free: aux.free ? 'Yes' : 'No',
           versionOfService: aux.versionOfService,
-          numberOfDownloads: aux.numberOfDownloads
+          numberOfDownloads: aux.numberOfDownloads,
+          all: ''
         };
         this.editFormGroup.setValue(service);
         let date = new Date(this.editFormGroup.controls['lastUpdated'].value);

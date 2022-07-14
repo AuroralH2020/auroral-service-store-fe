@@ -36,7 +36,6 @@
               </mat-select>
             </mat-form-field>
           </div>
-
         </div>
 
         <div class="fieldFilter">
@@ -55,7 +54,6 @@
               </mat-select>
             </mat-form-field>
           </div>
-
         </div>
 
         <div class="fieldFilter">
@@ -163,9 +161,13 @@
           </div>
         </div>
 
-
-
-
+        <div class="fieldFilter" *ngFor="let i of [15]">
+            <p>{{ formFields[i].label }}:</p>
+            <mat-form-field appearance="outline" class="largeMatFilter">
+              <input matInput [type]="formFields[i].type" [formControlName]="formFields[i].property"
+                (keyup)="applyFilterPopUp()" />
+            </mat-form-field>
+        </div>
 
         <div class="btn-div" *ngIf="false">
           <button mat-mini-fab color="primary" (click)="this.clearFilterFormGroup()">
