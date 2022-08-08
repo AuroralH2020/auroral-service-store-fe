@@ -30,6 +30,7 @@ export class ServicesComponent implements OnInit {
     end: new FormControl(null),
   });
 
+
   constructor(
     private servicesService: ServicesService,
     private modals: ModalsService,
@@ -72,6 +73,17 @@ export class ServicesComponent implements OnInit {
     this.fetchServices();
   }
 
+  // search methods
+
+  searchStringInStrings(searchIn: string,searched:string[]):boolean{
+    let search = searchIn.toLowerCase();
+    for(let i=0;i<searched.length;i++){
+      if(searched[i].toLowerCase().includes(search))
+        return true;
+    }
+    return false;
+  }
+
   ngAfterViewInit() {
     this.clearFilterFormGroup();
     let services = this.tableServices as unknown as TableComponent;
@@ -80,7 +92,7 @@ export class ServicesComponent implements OnInit {
       for (let i = 0; i < keys.length; i++) {
         const key = keys[i];
         let element = this.read_prop(data, key);
-        if (key == 'lastUpdated' && this.range.controls.start.value != '' && this.range.controls.end.value != '') {
+        if (key == 'dateLastUpdate' && this.range.controls.start.value != '' && this.range.controls.end.value != '') {
           let date = new Date(element);
           let init = new Date(this.range.controls.start.value);
           let end = new Date(this.range.controls.end.value);
@@ -93,57 +105,65 @@ export class ServicesComponent implements OnInit {
           if (!(init <= date && end >= date))
             return false;
         }
-        if (key == 'title' || key == 'provider') {
+
+        if (key == 'serviceName') {
+          if(!this.searchStringInStrings(this.filterFormGroup.controls[key].value,element))
+            return false;
+        }
+
+        if (key == 'provider') {
           if (!element.toLowerCase().includes(this.filterFormGroup.controls[key].value.toLowerCase()))
             return false;
         }
-        if (key == 'free') {
-          if (this.selectedFree != '')
-            if (!((this.selectedFree == 'Yes' && element) || (this.selectedFree == 'No' && !element)))
+        if (key == 'serviceFree') {
+          if (this.selectedFree != ''){
+            let isFree = true;
+            for(let i = 0;i<element.length && isFree;i++)
+              if(!element[i])
+                isFree = false;
+            if (!((this.selectedFree == 'Yes' && isFree) || (this.selectedFree == 'No' && !isFree)))
               return false;
+          }
         }
-        if (key == 'location') {
+        if (key == 'applicableGeographicalArea') {
           if (this.selectedLocation != '')
-            if (!(element == this.selectedLocation))
+            if (element != this.selectedLocation)
               return false;
         }
-        if (key == 'statusDevelopment') {
+        if (key == 'currentStatus') {
           if (this.selectedStatusDevelopment != '')
-            if (!(element == this.selectedStatusDevelopment))
+            if (!(element.toString().includes(this.selectedStatusDevelopment)))
               return false;
         }
         if (key == 'language') {
-          if (this.selectedLanguage.length > 0) {
+          if (this.selectedLanguage.length > 0 && element != undefined) {
             let find = false;
             const elements = element as Array<String>;
             for (let i = 0; i < this.selectedLanguage.length && !find; i++) {
-              if (element != undefined)
-                if (elements.indexOf(this.selectedLanguage[i]) >= 0)
-                  find = true;
+              if (elements.indexOf(this.selectedLanguage[i]) >= 0)
+                find = true;
             }
             if (!find)
               return false;
           }
         }
-        if (key == 'funcionalities') {
-          if (this.selectedFuncionality.length > 0) {
+        if (key == 'hasFuncionality') {
+          if (this.selectedFuncionality.length > 0 && element != undefined) {
             let find = false;
             const elements = element as Array<String>;
             for (let i = 0; i < this.selectedFuncionality.length && !find; i++) {
-              if (element != undefined)
-                if (elements.indexOf(this.selectedFuncionality[i]) >= 0)
-                  find = true;
+              if (elements.indexOf(this.selectedFuncionality[i]) >= 0)
+                find = true;
             }
             if (!find)
               return false;
           }
         }
-        if (key == 'domain') {
-          if (this.selectedDomain.length > 0) {
+        if (key == 'hasDomain') {
+          if (this.selectedDomain.length > 0 && element != undefined) {
             let find = false;
             const elements = element as Array<String>;
             for (let i = 0; i < this.selectedDomain.length && !find; i++) {
-              if (element != undefined)
                 if (elements.indexOf(this.selectedDomain[i]) >= 0)
                   find = true;
             }
@@ -151,14 +171,13 @@ export class ServicesComponent implements OnInit {
               return false;
           }
         }
-        if (key == 'subdomain') {
-          if (this.selectedSubDomain.length > 0) {
+        if (key == 'hasSubDomain') {
+          if (this.selectedSubDomain.length > 0 && element != undefined) {
             let find = false;
             const elements = element as Array<String>;
             for (let i = 0; i < this.selectedSubDomain.length && !find; i++) {
-              if (element != undefined)
-                if (elements.indexOf(this.selectedSubDomain[i]) >= 0)
-                  find = true;
+              if (elements.indexOf(this.selectedSubDomain[i]) >= 0)
+                find = true;
             }
             if (!find)
               return false;
@@ -166,9 +185,8 @@ export class ServicesComponent implements OnInit {
         }
 
         if (key == 'versionOfService') {
-          if (this.selectedVersion.length > 0) {
+          if (this.selectedVersion.length > 0 && element != undefined) {
             let find = false;
-            if (element != undefined)
               for (let i = 0; i < this.selectedVersion.length && !find; i++)
                 if (element == this.selectedVersion[i])
                   find = true;
@@ -202,31 +220,31 @@ export class ServicesComponent implements OnInit {
             console.log('Se hace el filtro para all', data);
             let find = false;
             let text = this.filterFormGroup.controls[key].value.toLowerCase();
-            find = data.title.toLowerCase().includes(text) || find;
-            if (data.description)
-              find = data.description.toLowerCase().includes(text) || find;
+            find = data.serviceName.toString().toLowerCase().includes(text) || find;
+            if (data.serviceDescription)
+              find = data.serviceDescription.toString().toLowerCase().includes(text) || find;
             find = data.provider.toLowerCase().includes(text) || find;
-            if (data.lastUpdated)
-              find = data.lastUpdated.toString().toLowerCase().includes(text) || find;
-            if (data.statusDevelopment)
-              find = data.statusDevelopment.toLowerCase().includes(text) || find;
-            if (data.domain)
-              find = data.domain.toString().toLowerCase().includes(text) || find;
-            if (data.funcionalities)
-              find = data.funcionalities.toString().toLowerCase().includes(text) || find;
-            if (data.location)
-              find = data.location.toLowerCase().includes(text) || find;
-            if (data.serviceRequirements)
-              find = data.serviceRequirements.toLowerCase().includes(text) || find;
-            if (data.link)
-              find = data.link.toLowerCase().includes(text) || find;
+            if (data.dateLastUpdate)
+              find = data.dateLastUpdate.toString().toLowerCase().includes(text) || find;
+            if (data.currentStatus)
+              find = data.currentStatus.toString().toLowerCase().includes(text) || find;
+            if (data.hasDomain)
+              find = data.hasDomain.toString().toLowerCase().includes(text) || find;
+            if (data.hasFuncionality)
+              find = data.hasFuncionality.toString().toLowerCase().includes(text) || find;
+            if (data.applicableGeographicalArea)
+              find = data.applicableGeographicalArea.toLowerCase().includes(text) || find;
+            if (data.hasRequirement)
+              find = data.hasRequirement.toString().toLowerCase().includes(text) || find;
+            if (data.hasURL)
+              find = data.hasURL.toLowerCase().includes(text) || find;
             if (data.language)
               find = data.language.toString().toLowerCase().includes(text) || find;
-            if (data.subdomain)
-              find = data.subdomain.toString().toLowerCase().includes(text) || find;
-            if (data.free != undefined){
-              console.log(text);
-              find = (data.free && text == 'yes') || (!data.free && text == 'no') || find;
+            if (data.hasSubDomain)
+              find = data.hasSubDomain.toString().toLowerCase().includes(text) || find;
+            if (data.serviceFree != undefined) {
+              let isFree = this.ifServiceFree(data);
+              find = (isFree && text == 'yes') || (!isFree && text == 'no') || find;
             }
             if (data.versionOfService)
               find = data.versionOfService.toLowerCase().includes(text) || find;
@@ -241,7 +259,12 @@ export class ServicesComponent implements OnInit {
     };
   }
 
-
+  ifServiceFree(service: IService): boolean {
+    for (let i = 0; i < service.serviceFree.length; i++)
+      if (!service.serviceFree[i])
+        return false;
+    return true;
+  }
 
   read_prop(obj: any, id: any) {
     if (id != undefined)
@@ -253,7 +276,6 @@ export class ServicesComponent implements OnInit {
   applyFilterPopUp() {
     let services = this.tableServices as unknown as TableComponent;
     services.dataSource.filter = 'onlyColumns';
-
     if (services.dataSource.paginator) {
       services.dataSource.paginator.firstPage();
     }
@@ -293,7 +315,6 @@ export class ServicesComponent implements OnInit {
   maxDownloadsInput = this.maxDownloads;
   minDownloadsInput = this.minDownloads;
 
-
   fetchServices() {
     this.locationsToSelect = [''];
     this.statusDevelopmentToSelect = [''];
@@ -303,14 +324,18 @@ export class ServicesComponent implements OnInit {
     this.listServices$ = this.servicesService.listProducts().subscribe({
       next: (response) => {
         (this.services = response.result.map((service) => {
-          if (service.registration != undefined)
-            service.lastUpdated = new Date(service.registration.modified);
+          if (service.dateLastUpdate == undefined)
+            service.dateLastUpdate = new Date();
           else
-            service.lastUpdated = new Date(1980, 1, 1);
-          if (this.locationsToSelect.indexOf(service.location) < 0)
-            this.locationsToSelect.push(service.location);
-          if (this.statusDevelopmentToSelect.indexOf(service.statusDevelopment) < 0)
-            this.statusDevelopmentToSelect.push(service.statusDevelopment);
+            service.dateLastUpdate = new Date(service.dateLastUpdate);
+          if (this.locationsToSelect.indexOf(service.applicableGeographicalArea) < 0)
+            this.locationsToSelect.push(service.applicableGeographicalArea);
+
+          service.currentStatus.forEach(currentStat => {
+            if (this.statusDevelopmentToSelect.indexOf(currentStat) < 0)
+              this.statusDevelopmentToSelect.push(currentStat);
+          });
+
           if (service.language != undefined)
             if (service.language.forEach != undefined)
               service.language.forEach(language => {
@@ -327,9 +352,9 @@ export class ServicesComponent implements OnInit {
           this.maxDownloadsInput = this.maxDownloads;
           this.minDownloadsInput = this.minDownloads;
 
-          if (service.funcionalities != undefined)
-            if (service.funcionalities.forEach != undefined)
-              service.funcionalities.forEach(funcionality => {
+          if (service.hasFuncionality != undefined)
+            if (service.hasFuncionality.forEach != undefined)
+              service.hasFuncionality.forEach(funcionality => {
                 if (this.funcionalityToSelect.indexOf(funcionality) < 0)
                   this.funcionalityToSelect.push(funcionality);
               });
@@ -338,35 +363,36 @@ export class ServicesComponent implements OnInit {
             if (this.versionToSelect.indexOf(service.versionOfService) < 0)
               this.versionToSelect.push(service.versionOfService);
 
-          if (service.domain != undefined)
-            if (service.domain.forEach != undefined)
-              service.domain.forEach(domain => {
+          if (service.hasDomain != undefined)
+            if (service.hasDomain.forEach != undefined)
+              service.hasDomain.forEach(domain => {
                 if (this.domainToSelect.indexOf(domain) < 0)
                   this.domainToSelect.push(domain);
               });
 
-          service.freeText = service.free ? 'Yes' : 'No';
+          service.freeText = this.ifServiceFree(service)? 'Yes' : 'No';
+          service.linkShow = this.substring(service.hasURL);
+          service.funcionalitiesShow = this.subFuncionalities(service.hasFuncionality);
           return {
             ...service,
           };
         }));
         this.services.sort(function (a, b) {
-          if (a.lastUpdated > b.lastUpdated)
+          if (a.dateLastUpdate > b.dateLastUpdate)
             return 1;
-          if (a.lastUpdated < b.lastUpdated)
+          if (a.dateLastUpdate < b.dateLastUpdate)
             return -1;
           return 0;
         });
-        for (let i = 0; i < this.services.length; i++) {
-          this.services[i].linkShow = this.substring(this.services[i].link);
-          this.services[i].funcionalitiesShow = this.subFuncionalities(this.services[i].funcionalities);
-        }
+        console.log('Services loaded: ', this.services);
       },
-      error: (err: HttpErrorResponse) =>
+      error: (err: HttpErrorResponse) =>{
         this.modals.open({
           title: 'Error',
           message: 'The service data could not be loaded',
-        }),
+        });
+        console.log('Error of load: ', err);
+      },
       complete: () => {
         this.isTableLoading = false;
       },
@@ -401,23 +427,24 @@ export class ServicesComponent implements OnInit {
   }
 
   actions(event: { action: string, row: any }): void {
+    // need change the name of atributes here
     switch (event.action) {
       case 'View':
         const aux = { ...event.row };
-        if (aux.description == undefined)
-          aux.description = '';
-        if (aux.statusDevelopment == undefined)
-          aux.statusDevelopment = '';
-        if (aux.domain == undefined)
-          aux.domain = '';
-        if (aux.funcionalities == undefined)
-          aux.funcionalities = '';
-        if (aux.location == undefined)
-          aux.location = '';
-        if (aux.serviceRequirements == undefined)
-          aux.serviceRequirements = '';
-        if (aux.link == undefined)
-          aux.link = '';
+        if (aux.serviceDescription == undefined)
+          aux.serviceDescription = '';
+        if (aux.currentStatus == undefined)
+          aux.currentStatus = [''];
+        if (aux.hasSubDomain == undefined)
+          aux.hasSubDomain = [''];
+        if (aux.hasFuncionality == undefined)
+          aux.hasFuncionality = [''];
+        if (aux.applicableGeographicalArea == undefined)
+          aux.applicableGeographicalArea = '';
+        if (aux.hasRequirement == undefined)
+          aux.hasRequirement = [''];
+        if (aux.hasURL == undefined)
+          aux.hasURL = '';
         if (aux.language == undefined)
           aux.language = '';
         if (aux.subdomain == undefined)
@@ -426,27 +453,29 @@ export class ServicesComponent implements OnInit {
           aux.versionOfService = '';
         if (aux.numberOfDownloads == undefined)
           aux.numberOfDownloads = 0;
+        if (aux.serviceName === undefined)
+          aux.serviceName = [''];
         let service: any = {
-          title: aux.title,
-          description: aux.description,
+          serviceName: aux.serviceName,
+          serviceDescription: aux.serviceDescription,
           provider: aux.provider,
-          lastUpdated: aux.lastUpdated,
-          statusDevelopment: aux.statusDevelopment,
-          domain: aux.domain,
-          funcionalities: aux.funcionalities,
-          location: aux.location,
-          serviceRequirements: aux.serviceRequirements,
-          link: aux.link,
+          dateLastUpdate: aux.dateLastUpdate,
+          currentStatus: aux.currentStatus,
+          hasSubDomain: aux.hasSubDomain,
+          hasFuncionality: aux.hasFuncionality,
+          applicableGeographicalArea: aux.applicableGeographicalArea,
+          hasRequirement: aux.hasRequirement,
+          hasURL: aux.hasURL,
           language: aux.language,
-          subdomain: aux.subdomain,
-          free: aux.free ? 'Yes' : 'No',
+          hasDomain: aux.hasDomain,
+          serviceFree: this.ifServiceFree(aux) ? 'Yes' : 'No',
           versionOfService: aux.versionOfService,
           numberOfDownloads: aux.numberOfDownloads,
           all: ''
         };
         this.editFormGroup.setValue(service);
-        let date = new Date(this.editFormGroup.controls['lastUpdated'].value);
-        this.editFormGroup.controls['lastUpdated'].setValue(date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear());
+        let date = new Date(this.editFormGroup.controls['dateLastUpdate'].value);
+        this.editFormGroup.controls['dateLastUpdate'].setValue(date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear());
         this.dialog.open(this.modalService, { width: '77em' });
         break;
       default:
@@ -496,12 +525,12 @@ export class ServicesComponent implements OnInit {
     this.subDomainToSelect = [];
     this.selectedDomain.forEach(domain => {
       for (let i = 0; i < this.services.length; i++) {
-        if (this.services[i].domain != undefined) {
-          if (this.services[i].domain.indexOf(domain) >= 0) { // one domain is in the file
-            if (typeof this.services[i].subdomain != "string") {
-              for (let i2 = 0; i2 < this.services[i].subdomain.length; i2++) {
-                if (this.subDomainToSelect.indexOf(this.services[i].subdomain[i2]) < 0)
-                  this.subDomainToSelect.push(this.services[i].subdomain[i2]); // add new subDomain
+        if (this.services[i].hasDomain != undefined) {
+          if (this.services[i].hasDomain.indexOf(domain) >= 0) { // one domain is in the file
+            if (typeof this.services[i].hasSubDomain != "string") {
+              for (let i2 = 0; i2 < this.services[i].hasSubDomain.length; i2++) {
+                if (this.subDomainToSelect.indexOf(this.services[i].hasSubDomain[i2]) < 0)
+                  this.subDomainToSelect.push(this.services[i].hasSubDomain[i2]); // add new subDomain
               }
             }
           }
