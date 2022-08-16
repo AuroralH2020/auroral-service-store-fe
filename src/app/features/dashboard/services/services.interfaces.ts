@@ -17,7 +17,21 @@ export interface IService{
     serviceFree: boolean[],
     freeText: string,
     versionOfService: string,
-    numberOfDownloads: number 
+    numberOfDownloads: number,
+    community: ICommunity,
+    node: INode
+}
+
+export interface ICommunity{
+  description: string,
+  name: string,
+  commId: string
+}
+
+export interface INode{
+  company: string,
+  cid: string,
+  agid: string
 }
 
 
