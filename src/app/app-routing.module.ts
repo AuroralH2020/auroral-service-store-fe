@@ -14,15 +14,15 @@ const routes: Routes = [
     path: '',
     component: AppComponent,
     children: [
-      { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
-      {
+      //{ path: '', pathMatch: 'full', redirectTo: '' },
+      /*{
         path: 'auth',
         loadChildren: () =>
           import('@features/auth/auth.module').then((m) => m.AuthModule),
         // canActivate: [AuthGuard],
-      },
+      },*/
       {
-        path: 'dashboard',
+        path: '',
         loadChildren: () =>
           import('@features/dashboard/dashboard.module').then(
             (m) => m.DashboardModule
@@ -30,7 +30,7 @@ const routes: Routes = [
         // canActivate: [DashboardGuard],
       },
       
-      { path: '**', redirectTo: 'dashboard' },
+      { path: '**', redirectTo: '' },
     ],
   },
   

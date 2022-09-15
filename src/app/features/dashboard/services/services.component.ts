@@ -92,7 +92,7 @@ export class ServicesComponent implements OnInit {
       for (let i = 0; i < keys.length; i++) {
         const key = keys[i];
         let element = this.read_prop(data, key);
-        if (key == 'dateLastUpdate' && this.range.controls.start.value != '' && this.range.controls.end.value != '') {
+        if (key == 'dateLastUpdate' && this.range.controls.start.value != '' && this.range.controls.end.value != ''&& element != undefined) {
           let date = new Date(element);
           let init = new Date(this.range.controls.start.value);
           let end = new Date(this.range.controls.end.value);
@@ -106,16 +106,16 @@ export class ServicesComponent implements OnInit {
             return false;
         }
 
-        if (key == 'serviceName') {
+        if (key == 'serviceName'&& element != undefined) {
           if(!this.searchStringInStrings(this.filterFormGroup.controls[key].value,element))
             return false;
         }
 
-        if (key == 'provider') {
+        if (key == 'provider' && element != undefined) {
           if (!element.toLowerCase().includes(this.filterFormGroup.controls[key].value.toLowerCase()))
             return false;
         }
-        if (key == 'serviceFree') {
+        if (key == 'serviceFree'&& element != undefined) {
           if (this.selectedFree != ''){
             let isFree = true;
             for(let i = 0;i<element.length && isFree;i++)
@@ -125,17 +125,17 @@ export class ServicesComponent implements OnInit {
               return false;
           }
         }
-        if (key == 'applicableGeographicalArea') {
+        if (key == 'applicableGeographicalArea'&& element != undefined) {
           if (this.selectedLocation != '')
             if (element != this.selectedLocation)
               return false;
         }
-        if (key == 'currentStatus') {
+        if (key == 'currentStatus'&& element != undefined) {
           if (this.selectedStatusDevelopment != '')
             if (!(element.toString().includes(this.selectedStatusDevelopment)))
               return false;
         }
-        if (key == 'language') {
+        if (key == 'language'&& element != undefined) {
           if (this.selectedLanguage.length > 0 && element != undefined) {
             let find = false;
             const elements = element as Array<String>;
@@ -147,7 +147,7 @@ export class ServicesComponent implements OnInit {
               return false;
           }
         }
-        if (key == 'hasFuncionality') {
+        if (key == 'hasFuncionality'&& element != undefined) {
           if (this.selectedFuncionality.length > 0 && element != undefined) {
             let find = false;
             const elements = element as Array<String>;
@@ -159,7 +159,7 @@ export class ServicesComponent implements OnInit {
               return false;
           }
         }
-        if (key == 'hasDomain') {
+        if (key == 'hasDomain'&& element != undefined) {
           if (this.selectedDomain.length > 0 && element != undefined) {
             let find = false;
             const elements = element as Array<String>;
@@ -171,7 +171,7 @@ export class ServicesComponent implements OnInit {
               return false;
           }
         }
-        if (key == 'hasSubDomain') {
+        if (key == 'hasSubDomain'&& element != undefined) {
           if (this.selectedSubDomain.length > 0 && element != undefined) {
             let find = false;
             const elements = element as Array<String>;
@@ -184,18 +184,18 @@ export class ServicesComponent implements OnInit {
           }
         }
 
-        if (key == 'versionOfService') {
+        if (key == 'versionOfService'&& element != undefined) {
           if (this.selectedVersion.length > 0 && element != undefined) {
             let find = false;
               for (let i = 0; i < this.selectedVersion.length && !find; i++)
-                if (element == this.selectedVersion[i])
+                if (element.indexOf(this.selectedVersion[i]) >= 0)
                   find = true;
             if (!find)
               return false;
           }
         }
 
-        if (key == 'numberOfDownloads') {
+        if (key == 'numberOfDownloads'&& element != undefined) {
           if (this.filterFormGroup.controls[key].value != '') {
             if (!Number.isNaN(this.filterFormGroup.controls[key].value)) {
               if (element == undefined)
@@ -247,7 +247,7 @@ export class ServicesComponent implements OnInit {
               find = (isFree && text == 'yes') || (!isFree && text == 'no') || find;
             }
             if (data.versionOfService)
-              find = data.versionOfService.toLowerCase().includes(text) || find;
+              find = data.versionOfService.toString().toLowerCase().includes(text) || find;
             if (data.numberOfDownloads)
               find = data.numberOfDownloads.toString().toLowerCase().includes(text) || find;
             if (!find)
@@ -360,8 +360,12 @@ export class ServicesComponent implements OnInit {
               });
 
           if (service.versionOfService != undefined)
-            if (this.versionToSelect.indexOf(service.versionOfService) < 0)
-              this.versionToSelect.push(service.versionOfService);
+            if(service.versionOfService.forEach != undefined)
+              service.versionOfService.forEach(version => {
+                if(this.versionToSelect.indexOf(version) < 0)
+                  this.versionToSelect.push(version);
+              });
+              
 
           if (service.hasDomain != undefined)
             if (service.hasDomain.forEach != undefined)
@@ -450,7 +454,7 @@ export class ServicesComponent implements OnInit {
         if (aux.subdomain == undefined)
           aux.subdomain = '';
         if (aux.versionOfService == undefined)
-          aux.versionOfService = '';
+          aux.versionOfService = [''];
         if (aux.numberOfDownloads == undefined)
           aux.numberOfDownloads = 0;
         if (aux.serviceName === undefined)

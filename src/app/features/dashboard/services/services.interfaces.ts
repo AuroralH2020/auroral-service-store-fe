@@ -16,7 +16,7 @@ export interface IService{
     hasSubDomain: string[],
     serviceFree: boolean[],
     freeText: string,
-    versionOfService: string,
+    versionOfService: string[],
     numberOfDownloads: number,
     community: ICommunity,
     node: INode

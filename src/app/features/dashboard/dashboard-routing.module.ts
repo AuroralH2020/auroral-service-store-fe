@@ -10,8 +10,9 @@ const routes: Routes = [
   {
     path: '',
     component: DashboardComponent,
-    children: [{ path: '', pathMatch: 'full', /*redirectTo: 'home'*/ redirectTo: 'services' },
-    { path: 'services', loadChildren: () => import('./services/services.module').then(m => m.ServicesModule) },
+    children: [{ path: '', pathMatch: 'full', /*redirectTo: 'home'*/ redirectTo: 'service-store' },
+    { path: 'service-store', loadChildren: () => import('./services/services.module').then(m => m.ServicesModule) },
+    { path: '**', redirectTo: 'service-store' },
     ],
   },
 ];
