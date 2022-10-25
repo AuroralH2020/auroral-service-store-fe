@@ -162,11 +162,13 @@
         </div>
 
         <div class="fieldFilter" *ngFor="let i of [15]">
+          <div class="midField" [style.width]="'100%'">
             <p>{{ formFields[i].label }}:</p>
             <mat-form-field appearance="outline" class="largeMatFilter">
               <input matInput [type]="formFields[i].type" [formControlName]="formFields[i].property"
                 (keyup)="applyFilterPopUp()" />
             </mat-form-field>
+          </div>
         </div>
 
         <div class="btn-div" *ngIf="false">
