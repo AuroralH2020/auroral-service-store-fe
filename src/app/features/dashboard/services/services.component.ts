@@ -9,6 +9,7 @@ import { IService } from './services.interfaces';
 import { formFields, servicesConfig } from './services.config';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TableComponent } from '@shared/components/table/table.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-services',
@@ -35,6 +36,7 @@ export class ServicesComponent implements OnInit {
     private servicesService: ServicesService,
     private modals: ModalsService,
     private dialog: MatDialog,
+    private _snackBar: MatSnackBar
   ) { }
 
   @ViewChild('tableServices') tableServices!: TemplateRef<any>;
@@ -75,10 +77,10 @@ export class ServicesComponent implements OnInit {
 
   // search methods
 
-  searchStringInStrings(searchIn: string,searched:string[]):boolean{
+  searchStringInStrings(searchIn: string, searched: string[]): boolean {
     let search = searchIn.toLowerCase();
-    for(let i=0;i<searched.length;i++){
-      if(searched[i].toLowerCase().includes(search))
+    for (let i = 0; i < searched.length; i++) {
+      if (searched[i].toLowerCase().includes(search))
         return true;
     }
     return false;
@@ -92,7 +94,7 @@ export class ServicesComponent implements OnInit {
       for (let i = 0; i < keys.length; i++) {
         const key = keys[i];
         let element = this.read_prop(data, key);
-        if (key == 'dateLastUpdate' && this.range.controls.start.value != '' && this.range.controls.end.value != ''&& element != undefined) {
+        if (key == 'dateLastUpdate' && this.range.controls.start.value != '' && this.range.controls.end.value != '' && element != undefined) {
           let date = new Date(element);
           let init = new Date(this.range.controls.start.value);
           let end = new Date(this.range.controls.end.value);
@@ -106,8 +108,8 @@ export class ServicesComponent implements OnInit {
             return false;
         }
 
-        if (key == 'serviceName'&& element != undefined) {
-          if(!this.searchStringInStrings(this.filterFormGroup.controls[key].value,element))
+        if (key == 'serviceName' && element != undefined) {
+          if (!this.searchStringInStrings(this.filterFormGroup.controls[key].value, element))
             return false;
         }
 
@@ -115,27 +117,27 @@ export class ServicesComponent implements OnInit {
           if (!element.toLowerCase().includes(this.filterFormGroup.controls[key].value.toLowerCase()))
             return false;
         }
-        if (key == 'serviceFree'&& element != undefined) {
-          if (this.selectedFree != ''){
+        if (key == 'serviceFree' && element != undefined) {
+          if (this.selectedFree != '') {
             let isFree = true;
-            for(let i = 0;i<element.length && isFree;i++)
-              if(!element[i])
+            for (let i = 0; i < element.length && isFree; i++)
+              if (!element[i])
                 isFree = false;
             if (!((this.selectedFree == 'Yes' && isFree) || (this.selectedFree == 'No' && !isFree)))
               return false;
           }
         }
-        if (key == 'applicableGeographicalArea'&& element != undefined) {
+        if (key == 'applicableGeographicalArea' && element != undefined) {
           if (this.selectedLocation != '')
             if (element != this.selectedLocation)
               return false;
         }
-        if (key == 'currentStatus'&& element != undefined) {
+        if (key == 'currentStatus' && element != undefined) {
           if (this.selectedStatusDevelopment != '')
             if (!(element.toString().includes(this.selectedStatusDevelopment)))
               return false;
         }
-        if (key == 'language'&& element != undefined) {
+        if (key == 'language' && element != undefined) {
           if (this.selectedLanguage.length > 0 && element != undefined) {
             let find = false;
             const elements = element as Array<String>;
@@ -147,7 +149,7 @@ export class ServicesComponent implements OnInit {
               return false;
           }
         }
-        if (key == 'hasFuncionality'&& element != undefined) {
+        if (key == 'hasFuncionality' && element != undefined) {
           if (this.selectedFuncionality.length > 0 && element != undefined) {
             let find = false;
             const elements = element as Array<String>;
@@ -159,19 +161,19 @@ export class ServicesComponent implements OnInit {
               return false;
           }
         }
-        if (key == 'hasDomain'&& element != undefined) {
+        if (key == 'hasDomain' && element != undefined) {
           if (this.selectedDomain.length > 0 && element != undefined) {
             let find = false;
             const elements = element as Array<String>;
             for (let i = 0; i < this.selectedDomain.length && !find; i++) {
-                if (elements.indexOf(this.selectedDomain[i]) >= 0)
-                  find = true;
+              if (elements.indexOf(this.selectedDomain[i]) >= 0)
+                find = true;
             }
             if (!find)
               return false;
           }
         }
-        if (key == 'hasSubDomain'&& element != undefined) {
+        if (key == 'hasSubDomain' && element != undefined) {
           if (this.selectedSubDomain.length > 0 && element != undefined) {
             let find = false;
             const elements = element as Array<String>;
@@ -184,18 +186,18 @@ export class ServicesComponent implements OnInit {
           }
         }
 
-        if (key == 'versionOfService'&& element != undefined) {
+        if (key == 'versionOfService' && element != undefined) {
           if (this.selectedVersion.length > 0 && element != undefined) {
             let find = false;
-              for (let i = 0; i < this.selectedVersion.length && !find; i++)
-                if (element.indexOf(this.selectedVersion[i]) >= 0)
-                  find = true;
+            for (let i = 0; i < this.selectedVersion.length && !find; i++)
+              if (element.indexOf(this.selectedVersion[i]) >= 0)
+                find = true;
             if (!find)
               return false;
           }
         }
 
-        if (key == 'numberOfDownloads'&& element != undefined) {
+        if (key == 'numberOfDownloads' && element != undefined) {
           if (this.filterFormGroup.controls[key].value != '') {
             if (!Number.isNaN(this.filterFormGroup.controls[key].value)) {
               if (element == undefined)
@@ -315,82 +317,128 @@ export class ServicesComponent implements OnInit {
   maxDownloadsInput = this.maxDownloads;
   minDownloadsInput = this.minDownloads;
 
+  nextServices(response: any, now: Date) {
+    let servicesAux: IService[] = response.result.map((service: IService) => {
+      if (service.dateLastUpdate == undefined)
+        service.dateLastUpdate = now;
+      else
+        service.dateLastUpdate = new Date(service.dateLastUpdate);
+      if (this.locationsToSelect.indexOf(service.applicableGeographicalArea) < 0)
+        this.locationsToSelect.push(service.applicableGeographicalArea);
+
+      service.currentStatus.forEach(currentStat => {
+        if (this.statusDevelopmentToSelect.indexOf(currentStat) < 0)
+          this.statusDevelopmentToSelect.push(currentStat);
+      });
+
+      if (service.language != undefined)
+        if (service.language.forEach != undefined)
+          service.language.forEach(language => {
+            if (this.languageToSelect.indexOf(language) < 0)
+              this.languageToSelect.push(language);
+          });
+
+      if (service.numberOfDownloads != undefined) {
+        if (this.minDownloads > service.numberOfDownloads || this.minDownloads == -1)
+          this.minDownloads = service.numberOfDownloads;
+        if (this.maxDownloads < service.numberOfDownloads)
+          this.maxDownloads = service.numberOfDownloads;
+      }
+      this.maxDownloadsInput = this.maxDownloads;
+      this.minDownloadsInput = this.minDownloads;
+
+      if (service.hasFuncionality != undefined)
+        if (service.hasFuncionality.forEach != undefined)
+          service.hasFuncionality.forEach(funcionality => {
+            if (this.funcionalityToSelect.indexOf(funcionality) < 0)
+              this.funcionalityToSelect.push(funcionality);
+          });
+
+      if (service.versionOfService != undefined)
+        if (service.versionOfService.forEach != undefined)
+          service.versionOfService.forEach(version => {
+            if (this.versionToSelect.indexOf(version) < 0)
+              this.versionToSelect.push(version);
+          });
+
+
+      if (service.hasDomain != undefined)
+        if (service.hasDomain.forEach != undefined)
+          service.hasDomain.forEach(domain => {
+            if (this.domainToSelect.indexOf(domain) < 0)
+              this.domainToSelect.push(domain);
+          });
+
+      service.freeText = this.ifServiceFree(service) ? 'Yes' : 'No';
+      service.linkShow = this.substring(service.hasURL);
+      service.funcionalitiesShow = this.subFuncionalities(service.hasFuncionality);
+      return {
+        ...service,
+      };
+    });
+
+    servicesAux.sort(function (a, b) {
+      if (a.dateLastUpdate > b.dateLastUpdate)
+        return 1;
+      if (a.dateLastUpdate < b.dateLastUpdate)
+        return -1;
+      return 0;
+    });
+    return servicesAux;
+  }
+
+  equals(a: IService[], b: IService[]): boolean {
+    if (a.length !== b.length) {
+      return false;
+    }
+    if (a.length == 0)
+      return true;
+    for (let i = 0; i < a.length; i++) {
+      if(JSON.stringify(a[i]) != JSON.stringify(b[i]))
+        return false;
+    }
+    return true;
+  }
+
   fetchServices() {
     this.locationsToSelect = [''];
     this.statusDevelopmentToSelect = [''];
     this.languageToSelect = [];
     this.domainToSelect = [];
     this.isTableLoading = true;
-    this.listServices$ = this.servicesService.listProducts().subscribe({
+    let servicesAux: IService[] = [];
+    const now = new Date();
+    this.listServices$ = this.servicesService.listProductsCache().subscribe({
       next: (response) => {
-        (this.services = response.result.map((service) => {
-          if (service.dateLastUpdate == undefined)
-            service.dateLastUpdate = new Date();
-          else
-            service.dateLastUpdate = new Date(service.dateLastUpdate);
-          if (this.locationsToSelect.indexOf(service.applicableGeographicalArea) < 0)
-            this.locationsToSelect.push(service.applicableGeographicalArea);
-
-          service.currentStatus.forEach(currentStat => {
-            if (this.statusDevelopmentToSelect.indexOf(currentStat) < 0)
-              this.statusDevelopmentToSelect.push(currentStat);
-          });
-
-          if (service.language != undefined)
-            if (service.language.forEach != undefined)
-              service.language.forEach(language => {
-                if (this.languageToSelect.indexOf(language) < 0)
-                  this.languageToSelect.push(language);
-              });
-
-          if (service.numberOfDownloads != undefined) {
-            if (this.minDownloads > service.numberOfDownloads || this.minDownloads == -1)
-              this.minDownloads = service.numberOfDownloads;
-            if (this.maxDownloads < service.numberOfDownloads)
-              this.maxDownloads = service.numberOfDownloads;
+        servicesAux = response.result;
+        servicesAux = this.nextServices(response, now);
+        this.services = [...servicesAux];
+        this.servicesService.listProducts().subscribe({
+          next: (response) => {
+            response.result = this.nextServices(response, now);
+            //response.result[0].language[0]= 'aadsf'; // only for test
+            //response.result[0].provider = 'oooo';    // only for test
+            //console.log(servicesAux[0].applicableGeographicalArea, response.result[0].applicableGeographicalArea);
+            if (this.equals(servicesAux, response.result)) {
+              console.log('Services not changed');
+            }
+            else {
+              this.services = [... this.nextServices(response,now)];
+              this._snackBar.open('Services reloaded', 'Close', { duration: 3 * 1000, });
+              console.log('Services changed');
+            }
+          },
+          error: (err: HttpErrorResponse) => {
+            this.modals.open({
+              title: 'Error',
+              message: 'The service data could not be loaded',
+            });
+            console.log('Error of load: ', err);
           }
-          this.maxDownloadsInput = this.maxDownloads;
-          this.minDownloadsInput = this.minDownloads;
-
-          if (service.hasFuncionality != undefined)
-            if (service.hasFuncionality.forEach != undefined)
-              service.hasFuncionality.forEach(funcionality => {
-                if (this.funcionalityToSelect.indexOf(funcionality) < 0)
-                  this.funcionalityToSelect.push(funcionality);
-              });
-
-          if (service.versionOfService != undefined)
-            if(service.versionOfService.forEach != undefined)
-              service.versionOfService.forEach(version => {
-                if(this.versionToSelect.indexOf(version) < 0)
-                  this.versionToSelect.push(version);
-              });
-              
-
-          if (service.hasDomain != undefined)
-            if (service.hasDomain.forEach != undefined)
-              service.hasDomain.forEach(domain => {
-                if (this.domainToSelect.indexOf(domain) < 0)
-                  this.domainToSelect.push(domain);
-              });
-
-          service.freeText = this.ifServiceFree(service)? 'Yes' : 'No';
-          service.linkShow = this.substring(service.hasURL);
-          service.funcionalitiesShow = this.subFuncionalities(service.hasFuncionality);
-          return {
-            ...service,
-          };
-        }));
-        this.services.sort(function (a, b) {
-          if (a.dateLastUpdate > b.dateLastUpdate)
-            return 1;
-          if (a.dateLastUpdate < b.dateLastUpdate)
-            return -1;
-          return 0;
         });
         console.log('Services loaded: ', this.services);
       },
-      error: (err: HttpErrorResponse) =>{
+      error: (err: HttpErrorResponse) => {
         this.modals.open({
           title: 'Error',
           message: 'The service data could not be loaded',

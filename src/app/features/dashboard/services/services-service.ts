@@ -21,6 +21,10 @@ export class ServicesService {
     return this.api.list(this.path);
   }
 
+  listProductsCache(): Observable<IResponse<IService[]>> {
+    return this.api.list(this.path + '?cache=true');
+  }
+
   readProduct(id: string): Observable<IResponse<IService>> {
     return this.api.read(this.path, id);
   }
