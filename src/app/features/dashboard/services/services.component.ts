@@ -164,9 +164,11 @@ export class ServicesComponent implements OnInit {
         if (key == 'hasDomain' && element != undefined) {
           if (this.selectedDomain.length > 0 && element != undefined) {
             let find = false;
-            const elements = element as Array<String>;
+            let elements = element as Array<String>;
+            for(let elementsIndex=0;elementsIndex<elements.length;elementsIndex++)
+              elements[elementsIndex] = elements[elementsIndex].toLowerCase();
             for (let i = 0; i < this.selectedDomain.length && !find; i++) {
-              if (elements.indexOf(this.selectedDomain[i]) >= 0)
+              if (elements.indexOf(this.selectedDomain[i].toLowerCase()) >= 0)
                 find = true;
             }
             if (!find)
@@ -362,12 +364,12 @@ export class ServicesComponent implements OnInit {
           });
 
 
-      if (service.hasDomain != undefined)
+      /*if (service.hasDomain != undefined)
         if (service.hasDomain.forEach != undefined)
           service.hasDomain.forEach(domain => {
             if (this.domainToSelect.indexOf(domain) < 0)
               this.domainToSelect.push(domain);
-          });
+          });*/
 
       service.freeText = this.ifServiceFree(service) ? 'Yes' : 'No';
       service.linkShow = this.substring(service.hasURL);
@@ -394,7 +396,7 @@ export class ServicesComponent implements OnInit {
     if (a.length == 0)
       return true;
     for (let i = 0; i < a.length; i++) {
-      if(JSON.stringify(a[i]) != JSON.stringify(b[i]))
+      if (JSON.stringify(a[i]) != JSON.stringify(b[i]))
         return false;
     }
     return true;
@@ -404,7 +406,7 @@ export class ServicesComponent implements OnInit {
     this.locationsToSelect = [''];
     this.statusDevelopmentToSelect = [''];
     this.languageToSelect = [];
-    this.domainToSelect = [];
+    this.domainToSelect = ['Energy', 'Mobility', 'Dairy farming & cycling economy', 'Health', 'Tourism'];
     this.isTableLoading = true;
     let servicesAux: IService[] = [];
     const now = new Date();
@@ -423,7 +425,7 @@ export class ServicesComponent implements OnInit {
               console.log('Services not changed');
             }
             else {
-              this.services = [... this.nextServices(response,now)];
+              this.services = [... this.nextServices(response, now)];
               this._snackBar.open('Services reloaded', 'Close', { duration: 3 * 1000, });
               console.log('Services changed');
             }
@@ -575,14 +577,21 @@ export class ServicesComponent implements OnInit {
   changeDomain() {
     this.selectedSubDomain = [];
     this.subDomainToSelect = [];
+    let servicesAux:IService[] = [];
+    for(let i=0;i<this.services.length;i++){
+      servicesAux.push({...this.services[i]});
+      for(let i2=0;i2<servicesAux[i].hasDomain.length;i2++)
+        servicesAux[i].hasDomain[i2] = servicesAux[i].hasDomain[i2].toLowerCase();
+    }
     this.selectedDomain.forEach(domain => {
       for (let i = 0; i < this.services.length; i++) {
         if (this.services[i].hasDomain != undefined) {
-          if (this.services[i].hasDomain.indexOf(domain) >= 0) { // one domain is in the file
-            if (typeof this.services[i].hasSubDomain != "string") {
+          if (servicesAux[i].hasDomain.includes(domain.toLowerCase()) ) { // one domain is in the file
+            if (typeof this.services[i].hasSubDomain != "string") {             
               for (let i2 = 0; i2 < this.services[i].hasSubDomain.length; i2++) {
-                if (this.subDomainToSelect.indexOf(this.services[i].hasSubDomain[i2]) < 0)
+                if (this.subDomainToSelect.indexOf(this.services[i].hasSubDomain[i2]) < 0){
                   this.subDomainToSelect.push(this.services[i].hasSubDomain[i2]); // add new subDomain
+                }
               }
             }
           }
