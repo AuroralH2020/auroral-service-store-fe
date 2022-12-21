@@ -62,13 +62,15 @@ export interface ITableColumn {
     | 'date'
     | 'colorText'
     | 'actions'
-    | 'list';
+    | 'list'
+    | 'url';
   datePipe?: string;
   sticky?: boolean;
   class?: string;
   editable?: boolean;
   width?: string;
   disabled?: boolean;
+  linkURL?: string;
 }
 
 interface IAction {

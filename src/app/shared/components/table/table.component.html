@@ -69,6 +69,53 @@
           </ng-container>
 
           <ng-container
+            *ngIf="column.type === 'url'"
+            [matColumnDef]="column.prop"
+            [sticky]="column.sticky"
+          >
+            <th
+              [style.width]="column.width"
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              class="header-cell"
+            >
+              {{ column.name }}
+            </th>
+            <td mat-cell class="cell" *matCellDef="let row">
+              <p
+                *ngIf="!column.editable; else editableTemplate"
+                [class]="column.class"
+              >
+              <a href="{{ column.linkURL ? row[column.linkURL]:'' }}" target="_blank" style="color: #348c8d;">{{ row[column.prop] }}</a>
+              </p>
+              <ng-template #editableTemplate>
+                <div #editable (click)="setEditable(editable)">
+                  <div
+                    class="cell-content"
+                    [style.height]="row[column.prop] ? 'fit-content' : '2rem'"
+                  >
+                    <p *ngIf="editable !== editing; else editingInput">
+                      {{ row[column.prop] }}
+                    </p>
+                  </div>
+                  <ng-template #editingInput>
+                    <mat-form-field appearance="outline" class="edit-field">
+                      <input
+                        #input
+                        matInput
+                        [value]="row[column.prop] || ''"
+                        (keyup)="change(input, $event)"
+                        (focusout)="lostFocus(row, column.prop, input)"
+                      />
+                    </mat-form-field>
+                  </ng-template>
+                </div>
+              </ng-template>
+            </td>
+          </ng-container>
+
+          <ng-container
             *ngIf="column.type === 'icon'"
             [matColumnDef]="column.prop"
             [sticky]="column.sticky"
