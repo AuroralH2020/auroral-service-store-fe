@@ -14,7 +14,7 @@ export const servicesConfig: ITableConfig = {
     { name: 'Subdomain', prop: 'hasSubDomain', type: 'text' },
     { name: 'Funcionalities', prop: 'funcionalitiesShow', type: 'text' },
     { name: 'Geographical restrictions', prop: 'applicableGeographicalArea', type: 'text' },
-    { name: 'Link to the service', prop: 'linkShow', type: 'text' },
+    { name: 'Link to the service', prop: 'linkShow', type: 'url' , linkURL: 'hasURL'},
     { name: 'Is free', prop: 'freeText', type: 'text' },
   ],
   

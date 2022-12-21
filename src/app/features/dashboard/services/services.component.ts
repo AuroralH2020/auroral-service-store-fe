@@ -10,6 +10,7 @@ import { formFields, servicesConfig } from './services.config';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TableComponent } from '@shared/components/table/table.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { DateAdapter } from '@angular/material/core';
 
 @Component({
   selector: 'app-services',
@@ -36,8 +37,12 @@ export class ServicesComponent implements OnInit {
     private servicesService: ServicesService,
     private modals: ModalsService,
     private dialog: MatDialog,
-    private _snackBar: MatSnackBar
-  ) { }
+    private _snackBar: MatSnackBar,
+    private dateAdapter: DateAdapter<Date>
+  ) { 
+    this.dateAdapter.setLocale('en-GB'); //dd/MM/yyyy
+    
+  }
 
   @ViewChild('tableServices') tableServices!: TemplateRef<any>;
   @ViewChild('inputText') inputText!: ElementRef<any>;
@@ -165,7 +170,7 @@ export class ServicesComponent implements OnInit {
           if (this.selectedDomain.length > 0 && element != undefined) {
             let find = false;
             let elements = element as Array<String>;
-            for(let elementsIndex=0;elementsIndex<elements.length;elementsIndex++)
+            for (let elementsIndex = 0; elementsIndex < elements.length; elementsIndex++)
               elements[elementsIndex] = elements[elementsIndex].toLowerCase();
             for (let i = 0; i < this.selectedDomain.length && !find; i++) {
               if (elements.indexOf(this.selectedDomain[i].toLowerCase()) >= 0)
@@ -509,6 +514,8 @@ export class ServicesComponent implements OnInit {
           aux.numberOfDownloads = 0;
         if (aux.serviceName === undefined)
           aux.serviceName = [''];
+        if (aux.provider == undefined)
+          aux.provider = '';
         let service: any = {
           serviceName: aux.serviceName,
           serviceDescription: aux.serviceDescription,
@@ -530,12 +537,15 @@ export class ServicesComponent implements OnInit {
         this.editFormGroup.setValue(service);
         let date = new Date(this.editFormGroup.controls['dateLastUpdate'].value);
         this.editFormGroup.controls['dateLastUpdate'].setValue(date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear());
+        this.URLtoPOP = service.hasURL;
         this.dialog.open(this.modalService, { width: '77em' });
         break;
       default:
         break;
     }
   }
+
+  URLtoPOP = '';
 
   clearFilterFormGroup() {
     this.maxDownloadsInput = this.maxDownloads;
@@ -577,19 +587,19 @@ export class ServicesComponent implements OnInit {
   changeDomain() {
     this.selectedSubDomain = [];
     this.subDomainToSelect = [];
-    let servicesAux:IService[] = [];
-    for(let i=0;i<this.services.length;i++){
-      servicesAux.push({...this.services[i]});
-      for(let i2=0;i2<servicesAux[i].hasDomain.length;i2++)
+    let servicesAux: IService[] = [];
+    for (let i = 0; i < this.services.length; i++) {
+      servicesAux.push({ ...this.services[i] });
+      for (let i2 = 0; i2 < servicesAux[i].hasDomain.length; i2++)
         servicesAux[i].hasDomain[i2] = servicesAux[i].hasDomain[i2].toLowerCase();
     }
     this.selectedDomain.forEach(domain => {
       for (let i = 0; i < this.services.length; i++) {
         if (this.services[i].hasDomain != undefined) {
-          if (servicesAux[i].hasDomain.includes(domain.toLowerCase()) ) { // one domain is in the file
-            if (typeof this.services[i].hasSubDomain != "string") {             
+          if (servicesAux[i].hasDomain.includes(domain.toLowerCase())) { // one domain is in the file
+            if (typeof this.services[i].hasSubDomain != "string") {
               for (let i2 = 0; i2 < this.services[i].hasSubDomain.length; i2++) {
-                if (this.subDomainToSelect.indexOf(this.services[i].hasSubDomain[i2]) < 0){
+                if (this.subDomainToSelect.indexOf(this.services[i].hasSubDomain[i2]) < 0) {
                   this.subDomainToSelect.push(this.services[i].hasSubDomain[i2]); // add new subDomain
                 }
               }
@@ -600,5 +610,8 @@ export class ServicesComponent implements OnInit {
     });
   }
 
+  toURL(URL:string){
 
+    console.log('To url',URL);
+  }
 }

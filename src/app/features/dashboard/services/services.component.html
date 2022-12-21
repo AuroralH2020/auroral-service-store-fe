@@ -10,7 +10,7 @@
       filters'}}</button>
   </div>
 
-  <div [style.display]="filterView?'block':'none'"  id="popup">
+  <div [style.display]="filterView?'block':'none'" id="popup">
     <div class="title" mat-dialog-title>
       <h1>Columns to filter</h1>
       <button mat-mini-fab color="primary" (click)="this.clearFilterFormGroup()">
@@ -65,7 +65,7 @@
                 <input matStartDate formControlName="start" placeholder="Start date" (dateChange)="applyFilterPopUp()">
                 <input matEndDate formControlName="end" placeholder="End date" (dateChange)="applyFilterPopUp()">
               </mat-date-range-input>
-              <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+              <mat-hint>DD/MM/YYYY – DD/MM/YYYY</mat-hint>
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-date-range-picker #picker></mat-date-range-picker>
 
@@ -124,14 +124,13 @@
                 <div class="sliders">
                   <div class="midMat">
                     <p>MAX downloads: {{maxDownloadsInput}}</p>
-                    <input class="allMat" type="range" [min]="minDownloads" [max]="maxDownloads" [value]="maxDownloads"  id="myRange"
-                    (change)="changeMaxDownloads($event)" #maxDownloadsHTML
-                    >
+                    <input class="allMat" type="range" [min]="minDownloads" [max]="maxDownloads" [value]="maxDownloads"
+                      id="myRange" (change)="changeMaxDownloads($event)" #maxDownloadsHTML>
                   </div>
                   <div class="midMat">
                     <p>MIN downloads: {{minDownloadsInput}}</p>
-                    <input class="minRange" type="range" [min]="minDownloads" [max]="maxDownloads" [value]="minDownloads"  id="myRange"
-                    (change)="changeMinDownloads($event)" #minDownloadsHTML>
+                    <input class="minRange" type="range" [min]="minDownloads" [max]="maxDownloads"
+                      [value]="minDownloads" id="myRange" (change)="changeMinDownloads($event)" #minDownloadsHTML>
                   </div>
                 </div>
               </mat-form-field>
@@ -191,6 +190,21 @@
 
 </div>
 
+<div class="footer">
+  <div class="copyright" >
+    <span >
+      <a href="https://www.auroral.eu/" target="_blank" style="color: #348c8d;">AURORAL</a> © 2022</span>
+  </div>
+  <div class="sub-footer-text">
+    <p>Privacy disclaimer: Please note that all service providers in the AURORAL Service Store have explicitly agreed to
+      make their service/s publicly discoverable. They can withdraw this agreement at any moment by making their
+      services undiscoverable. AURORAL Service Store does not persist any information about services.</p>
+  </div>
+  <div class="sub-footer">
+    <img class="bandeira" src="assets/bandeira.png">
+  </div>
+</div>
+
 <ng-template #modalService class="popUp">
   <div class="title" mat-dialog-title>
     <h1 class="display">Display service</h1>
@@ -211,9 +225,19 @@
 
       <div class="field">
         <div class="midField" *ngFor="let i of [2,10]">
-          <p>{{ formFields[i].label }}:</p>
-          <mat-form-field appearance="outline" class="smallMat">
-            <input matInput [type]="formFields[i].type" [formControlName]="formFields[i].property" />
+          <p *ngIf="i!=100">{{ formFields[i].label }}:</p>
+          <p *ngIf="i==100"><a href="{{URLtoPOP}}"  target="_blank" style="color: #348c8d;">{{ formFields[i].label }}:</a></p>
+          <mat-form-field appearance="outline" class="smallMat" (click)="toURL(URLtoPOP)">
+            <input *ngIf="i!=10" matInput [type]="formFields[i].type" [formControlName]="formFields[i].property" />
+            <a class="url-to-pop" *ngIf="i==10" [style.color]="'#348c8d !important'" [style.text-decoration]="'underline'"
+              href="{{URLtoPOP}}"  target="_blank" style="color: #348c8d;">{{ URLtoPOP }}
+              <input hidden *ngIf="i==10" matInput [type]="formFields[i].type" 
+              [style.color]="'#348c8d !important'" [style.text-decoration]="'underline'"    
+              [formControlName]="formFields[i].property" />
+
+            </a>
+            
+            
           </mat-form-field>
         </div>
       </div>
@@ -254,8 +278,8 @@
       </div>
 
       <div class="field" *ngFor="let i of [8,11,1]">
-        <p>{{ formFields[i].label }}:</p>
-        <textarea class="largeMat" name="text" cols="90" rows="2" [formControlName]="formFields[i].property">
+        <p class="calibri">{{ formFields[i].label }}:</p>
+        <textarea class="largeMat calibri" name="text" cols="90" rows="2" [formControlName]="formFields[i].property">
           </textarea>
       </div>
     </form>
@@ -315,7 +339,7 @@
             <mat-label>Enter a date range</mat-label>
             <mat-date-range-input [formGroup]="range" [rangePicker]="picker2">
               <input matStartDate formControlName="start" placeholder="Start date">
-              <input matEndDate formControlName="end" placeholder="End date"> 
+              <input matEndDate formControlName="end" placeholder="End date">
             </mat-date-range-input>
             <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
