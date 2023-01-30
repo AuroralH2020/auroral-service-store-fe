@@ -232,6 +232,7 @@ export class ServicesComponent implements OnInit {
             find = data.serviceName.toString().toLowerCase().includes(text) || find;
             if (data.serviceDescription)
               find = data.serviceDescription.toString().toLowerCase().includes(text) || find;
+            if(data.provider)
             find = data.provider.toLowerCase().includes(text) || find;
             if (data.dateLastUpdate)
               find = data.dateLastUpdate.toString().toLowerCase().includes(text) || find;
