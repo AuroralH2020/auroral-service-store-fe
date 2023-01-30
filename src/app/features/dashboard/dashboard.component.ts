@@ -37,4 +37,10 @@ export class DashboardComponent implements OnInit {
     localStorage.removeItem('token');
     this.router.navigate(['auth']);
   }
+
+  show_auroral_doc_panel = false;
+
+  showLinks(){
+    this.show_auroral_doc_panel = !this.show_auroral_doc_panel;
+  }
 }

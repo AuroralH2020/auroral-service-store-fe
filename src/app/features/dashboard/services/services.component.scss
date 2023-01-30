@@ -37,7 +37,7 @@
 ::ng-deep.mat-input-element {
   /*change color of underline when focused*/
   color: black !important;
-  font-family: 'Calibri' !important;
+  font-family: 'Calibri', sans-serif !important;
 }
 
 ::ng-deep.mat-form-field-appearance-outline .mat-form-field-infix {
@@ -59,19 +59,19 @@
 }
 
 ::ng-deep.mat-toolbar h3 {
-  font-family: 'Calibri' !important;
+  font-family: 'Calibri', sans-serif !important;
   font-size: 1.2em !important;
 }
 
 ::ng-deep.mat-raised-button {
   background-color: #1E5253 !important;
-  font-family: 'Calibri' !important;
+  font-family: 'Calibri', sans-serif !important;
   font-size: 1.2em !important;
 }
 
 ::ng-deep.header .header-cell {
   background-color: #1E5253 !important;
-  font-family: 'Calibri' !important;
+  font-family: 'Calibri', sans-serif !important;
   font-size: 1.2em !important;
 }
 
@@ -81,53 +81,53 @@
 
 ::ng-deep.mat-cell {
   background-color: white !important;
-  font-family: 'Calibri' !important;
+  font-family: 'Calibri', sans-serif !important;
   font-size: 1.2em !important;
 }
 
 ::ng-deep.mat-paginator {
-  font-family: 'Calibri' !important;
+  font-family: 'Calibri', sans-serif !important;
   font-size: 1.1em !important;
 }
 
 ::ng-deep.mat-list-base .mat-list-item {
-  font-family: 'Calibri' !important;
+  font-family: 'Calibri', sans-serif !important;
   font-size: 1.4em !important;
 }
 
 
 ::ng-deep.mat-input-element {
-  font-family: 'Calibri' !important;
+  font-family: 'Calibri', sans-serif !important;
   font-size: 1.2em !important;
 }
 
 .url-to-pop{
-  font-family: 'Calibri' !important;
+  font-family: 'Calibri', sans-serif !important;
   font-size: 1.2em !important;
 }
 
 ::ng-deep.calibri{
-  font-family: 'Calibri' !important;
+  font-family: 'Calibri', sans-serif !important;
   font-size: 1.2em !important;
 }
 
 ::ng-deep.mat-typography h1 {
-  font-family: 'Calibri' !important;
+  font-family: 'Calibri', sans-serif !important;
   font-size: 1.2em !important;
 }
 
 ::ng-deep.mat-form-field-appearance-outline .mat-form-field-wrapper{
-  font-family: 'Calibri' !important;
+  font-family: 'Calibri', sans-serif !important;
   font-size: 0.9em !important;
 }
 
 ::ng-deep.mat-select{
-  font-family: 'Calibri' !important;
+  font-family: 'Calibri', sans-serif !important;
   font-size: 1.1em !important;
 }
 
 ::ng-deep.mat-option{
-  font-family: 'Calibri' !important;
+  font-family: 'Calibri', sans-serif !important;
   font-size: 1.1em !important;
 }
 
@@ -137,7 +137,7 @@
 }
 
 .display {
-  font-family: 'Calibri' !important;
+  font-family: 'Calibri', sans-serif !important;
   font-size: 1.4em !important;
 }
 
@@ -146,7 +146,7 @@
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  font-family: 'Calibri' !important;
+  font-family: 'Calibri', sans-serif !important;
   font-size: 1.2em !important;
 
   p {
@@ -207,7 +207,7 @@
   background-color: white;
   width: 42em;
   font-size: 2em !important;
-  font-family: 'Calibri';
+  font-family: 'Calibri', sans-serif;
   .auroral {
     margin: 0px;
     letter-spacing: 0.3em;

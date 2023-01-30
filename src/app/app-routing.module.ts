@@ -2,10 +2,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-// App own modules and services
-import { AuthGuard } from '@core/guards/auth.guard';
-import { DashboardGuard } from '@core/guards/dashboard.guard';
-
 // Module inner imports
 import { AppComponent } from './app.component';
 

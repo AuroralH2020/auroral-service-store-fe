@@ -13,7 +13,7 @@
       <mat-spinner *ngIf="isLoadingTable"></mat-spinner>
     </div>
     <div class="table-container">
-      <table
+      <table aria-describedby="mydesc"
         mat-table
         [dataSource]="dataSource"
         matSort
@@ -87,7 +87,7 @@
                 *ngIf="!column.editable; else editableTemplate"
                 [class]="column.class"
               >
-              <a href="{{ column.linkURL ? row[column.linkURL]:'' }}" target="_blank" style="color: #348c8d;">{{ row[column.prop] }}</a>
+              <a href="{{ column.linkURL ? row[column.linkURL]:'' }}" target="_blank" rel="noopener noreferrer" style="color: #348c8d;">{{ row[column.prop] }}</a>
               </p>
               <ng-template #editableTemplate>
                 <div #editable (click)="setEditable(editable)">

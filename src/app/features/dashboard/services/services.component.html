@@ -1,7 +1,7 @@
 <div>
   <div class="logo">
     <h1 class="auroral">AURORAL</h1>
-    <img src="../../../../assets/AURORAL.png" alt="Logo" width="90">
+    <img src="../../../../assets/AURORAL.png" alt="Logo" width="90"  alt="image of Auroral">
     <h1 class="serviceStore">Service Store</h1>
   </div>
 
@@ -193,7 +193,7 @@
 <div class="footer">
   <div class="copyright" >
     <span >
-      <a href="https://www.auroral.eu/" target="_blank" style="color: #348c8d;">AURORAL</a> © 2022</span>
+      <a href="https://www.auroral.eu/" target="_blank" rel="noopener noreferrer" style="color: #348c8d;">AURORAL</a> © 2022</span>
   </div>
   <div class="sub-footer-text">
     <p>Privacy disclaimer: Please note that all service providers in the AURORAL Service Store have explicitly agreed to
@@ -201,7 +201,7 @@
       services undiscoverable. AURORAL Service Store does not persist any information about services.</p>
   </div>
   <div class="sub-footer">
-    <img class="bandeira" src="assets/bandeira.png">
+    <img class="bandeira" src="assets/bandeira.png"  alt="image of UE">
   </div>
 </div>
 
@@ -226,11 +226,11 @@
       <div class="field">
         <div class="midField" *ngFor="let i of [2,10]">
           <p *ngIf="i!=100">{{ formFields[i].label }}:</p>
-          <p *ngIf="i==100"><a href="{{URLtoPOP}}"  target="_blank" style="color: #348c8d;">{{ formFields[i].label }}:</a></p>
+          <p *ngIf="i==100"><a href="{{URLtoPOP}}"  target="_blank" rel="noopener noreferrer" style="color: #348c8d;">{{ formFields[i].label }}:</a></p>
           <mat-form-field appearance="outline" class="smallMat" (click)="toURL(URLtoPOP)">
             <input *ngIf="i!=10" matInput [type]="formFields[i].type" [formControlName]="formFields[i].property" />
             <a class="url-to-pop" *ngIf="i==10" [style.color]="'#348c8d !important'" [style.text-decoration]="'underline'"
-              href="{{URLtoPOP}}"  target="_blank" style="color: #348c8d;">{{ URLtoPOP }}
+              href="{{URLtoPOP}}"  target="_blank" rel="noopener noreferrer" style="color: #348c8d;">{{ URLtoPOP }}
               <input hidden *ngIf="i==10" matInput [type]="formFields[i].type" 
               [style.color]="'#348c8d !important'" [style.text-decoration]="'underline'"    
               [formControlName]="formFields[i].property" />

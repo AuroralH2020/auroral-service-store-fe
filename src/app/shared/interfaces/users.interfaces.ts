@@ -9,18 +9,4 @@ export interface IUser {
   tenantId: string;
 }
 
-export const UserDictionary = {
-  username: 'Nombre de usuario',
-  password: 'Contraseña',
-  confirmPassword: 'Repetir contraseña',
-  name: 'Nombre',
-  surnames: 'Apellidos',
-  email: 'Email',
-  role: [
-    'Rol',
-    [
-      ['admin', 'Administrador'],
-      ['manager', 'Gerente'],
-    ],
-  ],
-};
+
