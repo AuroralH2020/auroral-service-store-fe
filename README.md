@@ -1,3 +1,5 @@
+[![Quality Gate Status](https://sonar.bavenir.eu/api/project_badges/measure?project=auroral-agent&metric=alert_status&token=sqp_4dbc45701dcd963dd4a3b3f5c00a6019f4909e82)](https://sonar.bavenir.eu/dashboard?id=auroral_SO_fe)
+
 # auroralFe
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.4.
