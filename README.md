@@ -1,4 +1,4 @@
-[![Quality Gate Status](https://sonar.bavenir.eu/api/project_badges/measure?project=auroral-agent&metric=alert_status&token=sqp_4dbc45701dcd963dd4a3b3f5c00a6019f4909e82)](https://sonar.bavenir.eu/dashboard?id=auroral_SO_fe)
+[![Quality Gate Status](https://sonar.bavenir.eu/api/project_badges/measure?project=sqp_4dbc45701dcd963dd4a3b3f5c00a6019f4909e82&metric=alert_status&token=squ_87869b03d06e5cbfec76c88597d1472dc31763b6)](https://sonar.bavenir.eu/dashboard?id=sqp_4dbc45701dcd963dd4a3b3f5c00a6019f4909e82)
 
 # auroralFe
 
