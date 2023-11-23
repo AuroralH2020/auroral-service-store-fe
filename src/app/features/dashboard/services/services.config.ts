@@ -47,5 +47,6 @@ export const formFields = [
   { label: 'Version', property: 'versionOfService', type: 'text' },
   { label: 'Number of downloads', property: 'numberOfDownloads', type: 'number' },
   { label: 'Keywords', property: 'all', type: 'text' }, 
+  { label: 'Service type', property: 'ServiceType', type: 'text' }, 
 ];  
  

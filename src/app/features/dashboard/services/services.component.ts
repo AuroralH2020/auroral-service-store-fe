@@ -53,6 +53,7 @@ export class ServicesComponent implements OnInit {
   selectedStatusDevelopment = '';
   statusDevelopmentToSelect: string[] = [];
   selectedLanguage: string[] = [];
+  selectedServiceType: string[] = [];
   languageToSelect: string[] = [];
   selectedFuncionality: string[] = [];
   funcionalityToSelect: string[] = [];
@@ -110,6 +111,11 @@ export class ServicesComponent implements OnInit {
           end.setMinutes(59);
           end.setSeconds(59);
           if (!(init <= date && end >= date))
+            return false;
+        }
+
+        if (key == 'ServiceType' && this.selectedServiceType.length && element != undefined){
+          if (!this.selectedServiceType.includes(element.toString()))
             return false;
         }
 
@@ -331,6 +337,9 @@ export class ServicesComponent implements OnInit {
         service.dateLastUpdate = now;
       else
         service.dateLastUpdate = new Date(service.dateLastUpdate);
+      if (service.ServiceType == undefined)
+        service.ServiceType = '';
+
       if (this.locationsToSelect.indexOf(service.applicableGeographicalArea) < 0)
         this.locationsToSelect.push(service.applicableGeographicalArea);
 
@@ -424,6 +433,8 @@ export class ServicesComponent implements OnInit {
         this.servicesService.listProducts().subscribe({
           next: (response) => {
             response.result = this.nextServices(response, now);
+            //response.result[0].ServiceType = 'Commodity'; // only for test
+            //response.result[1].ServiceType = 'NotCommodity'; // only for test
             //response.result[0].language[0]= 'aadsf'; // only for test
             //response.result[0].provider = 'oooo';    // only for test
             //console.log(servicesAux[0].applicableGeographicalArea, response.result[0].applicableGeographicalArea);
@@ -504,7 +515,7 @@ export class ServicesComponent implements OnInit {
         if (aux.hasRequirement == undefined)
           aux.hasRequirement = [''];
         if (aux.hasURL == undefined)
-          aux.hasURL = '';
+          aux.hasURL = ' ';
         if (aux.language == undefined)
           aux.language = '';
         if (aux.subdomain == undefined)
@@ -516,7 +527,9 @@ export class ServicesComponent implements OnInit {
         if (aux.serviceName === undefined)
           aux.serviceName = [''];
         if (aux.provider == undefined)
-          aux.provider = '';
+          aux.provider = ' ';
+        if (aux.ServiceType == undefined)
+          aux.ServiceType = ' ';
         let service: any = {
           serviceName: aux.serviceName,
           serviceDescription: aux.serviceDescription,
@@ -533,7 +546,8 @@ export class ServicesComponent implements OnInit {
           serviceFree: this.ifServiceFree(aux) ? 'Yes' : 'No',
           versionOfService: aux.versionOfService,
           numberOfDownloads: aux.numberOfDownloads,
-          all: ''
+          all: '',
+          ServiceType: aux.ServiceType,
         };
         this.editFormGroup.setValue(service);
         let date = new Date(this.editFormGroup.controls['dateLastUpdate'].value);
@@ -546,7 +560,7 @@ export class ServicesComponent implements OnInit {
     }
   }
 
-  URLtoPOP = '';
+  URLtoPOP = ' ';
 
   clearFilterFormGroup() {
     this.maxDownloadsInput = this.maxDownloads;

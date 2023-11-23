@@ -15,7 +15,7 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: stretch;
 
   p {
     margin: 0 10px 0 12px;
@@ -26,7 +26,7 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: center;
   margin-bottom: 0.7em;
 
   p {
@@ -104,6 +104,7 @@
 .url-to-pop{
   font-family: 'Calibri', sans-serif !important;
   font-size: 1.2em !important;
+  height: 100%;
 }
 
 ::ng-deep.calibri{
@@ -145,7 +146,7 @@
   width: 49%;
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: center;
   font-family: 'Calibri', sans-serif !important;
   font-size: 1.2em !important;
 
@@ -319,4 +320,8 @@
       width: 100%;
     }
   }
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-flex{
+  min-height: 3em !important;
 }

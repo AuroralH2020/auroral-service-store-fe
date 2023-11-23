@@ -160,12 +160,23 @@
           </div>
         </div>
 
-        <div class="fieldFilter" *ngFor="let i of [15]">
-          <div class="midField" [style.width]="'100%'">
+        <div class="fieldFilter" >
+          <div class="midField" *ngFor="let i of [15]">
             <p>{{ formFields[i].label }}:</p>
-            <mat-form-field appearance="outline" class="largeMatFilter">
+            <mat-form-field appearance="outline" class="smallMat">
               <input matInput [type]="formFields[i].type" [formControlName]="formFields[i].property"
                 (keyup)="applyFilterPopUp()" />
+            </mat-form-field>
+          </div>
+
+          <div class="midField" *ngFor="let i of [16]">
+            <p>{{ formFields[i].label }}:</p>
+            <mat-form-field appearance="outline" class="smallMat">
+              <mat-select formcontrolName="ServiceType" [(value)]="selectedServiceType" multiple
+                (selectionChange)="applyFilterPopUp()">
+                <mat-option value="Commodity">Commodity</mat-option>
+                <mat-option value="NotCommodity">NotCommodity</mat-option>
+              </mat-select>
             </mat-form-field>
           </div>
         </div>
@@ -230,7 +241,7 @@
           <mat-form-field appearance="outline" class="smallMat" (click)="toURL(URLtoPOP)">
             <input *ngIf="i!=10" matInput [type]="formFields[i].type" [formControlName]="formFields[i].property" />
             <a class="url-to-pop" *ngIf="i==10" [style.color]="'#348c8d !important'" [style.text-decoration]="'underline'"
-              href="{{URLtoPOP}}"  target="_blank" rel="noopener noreferrer" style="color: #348c8d;">{{ URLtoPOP }}
+              href="{{URLtoPOP}}"  target="_blank" rel="noopener noreferrer" style="color: #348c8d;">{{ URLtoPOP + 'a' }}
               <input hidden *ngIf="i==10" matInput [type]="formFields[i].type" 
               [style.color]="'#348c8d !important'" [style.text-decoration]="'underline'"    
               [formControlName]="formFields[i].property" />
@@ -274,6 +285,14 @@
           <mat-form-field appearance="outline" class="smallMat">
             <input matInput [type]="'text'" [formControlName]="formFields[i].property" />
           </mat-form-field>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field" *ngFor="let i of [16]">
+          <p class="calibri">{{ formFields[i].label }}:</p>
+          <textarea class="largeMat calibri" name="text" cols="90" rows="2" [formControlName]="formFields[i].property">
+          </textarea>
         </div>
       </div>
 

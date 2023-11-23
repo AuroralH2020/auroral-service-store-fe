@@ -19,7 +19,8 @@ export interface IService{
     versionOfService: string[],
     numberOfDownloads: number,
     community: ICommunity,
-    node: INode
+    node: INode,
+    ServiceType: String,
 }
 
 export interface ICommunity{
