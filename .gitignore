@@ -49,3 +49,7 @@ Thumbs.db
 # Production and staging environment files (they will be built during deployment)
 /src/environments/*.prod.ts
 /src/environments/*.staging.ts
+
+#sonar files configuration
+sonar-project.properties
+.sonar_lock
