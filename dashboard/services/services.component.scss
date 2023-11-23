@@ -1,0 +1,327 @@
+.container {
+  padding: 1rem;
+
+  .head {
+    margin-bottom: 1rem;
+  }
+}
+
+.title {
+  display: flex;
+  justify-content: space-between;
+}
+
+.field {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+
+  p {
+    margin: 0 10px 0 12px;
+  }
+}
+
+.fieldFilter {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.7em;
+
+  p {
+    margin: 0 10px 0 12px;
+  }
+}
+
+::ng-deep.mat-input-element {
+  /*change color of underline when focused*/
+  color: black !important;
+  font-family: 'Calibri', sans-serif !important;
+}
+
+::ng-deep.mat-form-field-appearance-outline .mat-form-field-infix {
+  padding: 0.3em 0 !important;
+}
+
+::ng-deep.mat-form-field-appearance-outline .mat-form-field-wrapper {
+  margin: 0 !important;
+  padding-bottom: 0.5em !important;
+  font: 400 14px / 20px Roboto, "Helvetica Neue", sans-serif;
+}
+
+::ng-deep.mat-form-field-outline {
+  color: rgba(0, 0, 0, 0.66) !important;
+}
+
+::ng-deep.mat-toolbar {
+  background-color: #1E5253 !important;
+}
+
+::ng-deep.mat-toolbar h3 {
+  font-family: 'Calibri', sans-serif !important;
+  font-size: 1.2em !important;
+}
+
+::ng-deep.mat-raised-button {
+  background-color: #1E5253 !important;
+  font-family: 'Calibri', sans-serif !important;
+  font-size: 1.2em !important;
+}
+
+::ng-deep.header .header-cell {
+  background-color: #1E5253 !important;
+  font-family: 'Calibri', sans-serif !important;
+  font-size: 1.2em !important;
+}
+
+::ng-deep.mat-drawer-content {
+  background-color: white !important;
+}
+
+::ng-deep.mat-cell {
+  background-color: white !important;
+  font-family: 'Calibri', sans-serif !important;
+  font-size: 1.2em !important;
+}
+
+::ng-deep.mat-paginator {
+  font-family: 'Calibri', sans-serif !important;
+  font-size: 1.1em !important;
+}
+
+::ng-deep.mat-list-base .mat-list-item {
+  font-family: 'Calibri', sans-serif !important;
+  font-size: 1.4em !important;
+}
+
+
+::ng-deep.mat-input-element {
+  font-family: 'Calibri', sans-serif !important;
+  font-size: 1.2em !important;
+}
+
+.url-to-pop{
+  font-family: 'Calibri', sans-serif !important;
+  font-size: 1.2em !important;
+  height: 100%;
+}
+
+::ng-deep.calibri{
+  font-family: 'Calibri', sans-serif !important;
+  font-size: 1.2em !important;
+}
+
+::ng-deep.mat-typography h1 {
+  font-family: 'Calibri', sans-serif !important;
+  font-size: 1.2em !important;
+}
+
+::ng-deep.mat-form-field-appearance-outline .mat-form-field-wrapper{
+  font-family: 'Calibri', sans-serif !important;
+  font-size: 0.9em !important;
+}
+
+::ng-deep.mat-select{
+  font-family: 'Calibri', sans-serif !important;
+  font-size: 1.1em !important;
+}
+
+::ng-deep.mat-option{
+  font-family: 'Calibri', sans-serif !important;
+  font-size: 1.1em !important;
+}
+
+
+::ng-deep.mat-button.mat-accent {
+  color: #37A07B;
+}
+
+.display {
+  font-family: 'Calibri', sans-serif !important;
+  font-size: 1.4em !important;
+}
+
+.midField {
+  width: 49%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Calibri', sans-serif !important;
+  font-size: 1.2em !important;
+
+  p {
+    margin: 0 10px 0 12px;
+  }
+}
+
+.flexEnd {
+  justify-content: flex-end;
+}
+
+
+
+.thirdField {
+  width: 49%;
+  display: flex;
+  //justify-content: space-between;
+  align-items: baseline;
+
+  p {
+    margin: 0 10px 0 12px;
+    width: 10em;
+    text-align: right;
+  }
+}
+
+.largeMat {
+  width: 80%;
+  color: black;
+  border-color: black;
+  font: 400 14px/20px Roboto, "Helvetica Neue", sans-serif;
+}
+
+.largeMatFilter {
+  width: 80.8%;
+}
+
+.smallMat {
+  width: 60.5%;
+}
+
+.allMat{
+  width: 100%;
+}
+
+.midMat{
+  width: 48%;
+}
+
+
+.logo {
+  margin: auto;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  margin-bottom: 3em;
+  background-color: white;
+  width: 42em;
+  font-size: 2em !important;
+  font-family: 'Calibri', sans-serif;
+  .auroral {
+    margin: 0px;
+    letter-spacing: 0.3em;
+    font-weight: 500;
+    font-size: xx-large;
+  }
+
+  .serviceStore {
+    margin: 0px;
+    margin-left: 0.3em;
+    font-weight: 550;
+    font-size: xx-large;
+  }
+}
+
+.filter {
+  display: flex;
+  align-items: stretch;
+  margin: 2em;
+}
+
+.btn-div {
+  margin: 1% 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 2em;
+  margin-right: 2em;
+}
+
+.mat-success {
+  background-color: green;
+  color: #fff;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 9em;
+  width: 15em;
+}
+
+.buttonReset {
+  margin-left: 3em;
+  margin-right: 3em;
+  position: relative;
+}
+
+.vertical-center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.example-chip-list {
+  width: 47em;
+}
+
+.sliders{
+  width: 99%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.minRange{
+  width: 100%;
+  color:green;
+  background-color: pink;
+}
+
+
+.footer{
+  //max-width: 70%;
+  width: 90em;
+  margin: auto;
+  text-align: justify;
+  display:flex;
+  justify-content: center;
+  flex-direction: row;
+
+  .sub-footer-text{
+    width: 60%;
+    margin: 3em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .copyright{
+    margin: 3em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 15%;
+    font: 400 16px / 20px Roboto, "Helvetica Neue", sans-serif;
+  }
+
+  .sub-footer{
+    width: 35%;
+    margin: 3em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    .bandeira{
+      width: 100%;
+    }
+  }
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-flex{
+  min-height: 3em !important;
+}

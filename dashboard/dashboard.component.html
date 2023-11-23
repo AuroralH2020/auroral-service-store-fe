@@ -1,0 +1,59 @@
+<div class="dashboard-container">
+  <mat-toolbar color="primary">
+    <button mat-icon-button (click)="toggle()">
+      <mat-icon *ngIf="show">menu</mat-icon>
+      <mat-icon *ngIf="!show">arrow_back</mat-icon>
+    </button>
+    <h3>Auroral</h3>
+  </mat-toolbar>
+  <mat-drawer-container autosize>
+    <mat-drawer #drawer class="sidenav" mode="side">
+      <mat-nav-list [disableRipple]="true">
+        <mat-list-item *ngFor="let item of sideNavItems" [routerLink]="item.link" routerLinkActive="active-list-item">
+          <mat-icon class="list-item-icon">{{ item.icon }}</mat-icon>
+          <span class="list-item-text">{{ item.text }}</span>
+        </mat-list-item>
+      </mat-nav-list>
+    </mat-drawer>
+
+    <div class="container">
+      <div class="content">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </mat-drawer-container>
+</div>
+
+<div id="_auroral-doc-button" style="display:block;" (click)="showLinks()" *ngIf="!show_auroral_doc_panel">
+  <div id="after"></div>
+</div>
+
+<div id="_auroral-doc-panel" style="display: block;" *ngIf="show_auroral_doc_panel">
+  <div id="_auroral-doc-panel-header">
+    <div id="_auroral-doc-panel-title"><div id="_auroral-doc-panel-title_before" style="display: inline;"></div>Auroral Documentation</div>
+    <div id="_auroral-doc-panel-close" (click)="showLinks()">✕</div>
+  </div>
+  <div id="_auroral-doc-panel-content">
+    <a target="_blank" rel="noopener noreferrer" href="https://blog.bavenir.eu/auroral/publishing-a-service-in-aurorals-service-store">
+      <div class="_auroral-doc-panel-content-item">
+        <div class="_auroral-doc-panel-content-title">Blog</div>
+        <div class="_auroral-doc-panel-content-description">Include a service in this service store</div>
+      </div>
+    </a>
+
+    <a target="_blank" rel="noopener noreferrer" href="https://blog.bavenir.eu/auroral/">
+      <div class="_auroral-doc-panel-content-item">
+        <div class="_auroral-doc-panel-content-title">Blog</div>
+        <div class="_auroral-doc-panel-content-description">installation, examples...</div>
+      </div>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" href="https://github.com/AuroralH2020/auroral-node/wiki">
+      <div class="_auroral-doc-panel-content-item">
+        <div class="_auroral-doc-panel-content-title">Wiki</div>
+        <div class="_auroral-doc-panel-content-description">Technical documentation</div>
+      </div>
+    </a></div>
+  <div id="_auroral-doc-panel-contrib"><a target="_blank" rel="noopener noreferrer"
+      href="https://icons8.com/icon/xZb3XsJN26va/book-information">Book Information</a> icon by <a target="_blank"
+      href="https://icons8.com"  rel="noopener">Icons8</a></div>
+</div>

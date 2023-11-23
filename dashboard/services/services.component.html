@@ -1,0 +1,437 @@
+<div>
+  <div class="logo">
+    <h1 class="auroral">AURORAL</h1>
+    <img src="../../../../assets/AURORAL.png" alt="Logo" width="90"  alt="image of Auroral">
+    <h1 class="serviceStore">Service Store</h1>
+  </div>
+
+  <div class="filter">
+    <button mat-raised-button color="primary" (click)="changeFilterView()">{{ filterView?'Hide filters': 'Show
+      filters'}}</button>
+  </div>
+
+  <div [style.display]="filterView?'block':'none'" id="popup">
+    <div class="title" mat-dialog-title>
+      <h1>Columns to filter</h1>
+      <button mat-mini-fab color="primary" (click)="this.clearFilterFormGroup()">
+        <mat-icon>undo</mat-icon>
+      </button>
+    </div>
+    <mat-dialog-content>
+      <form [formGroup]="filterFormGroup">
+        <div class="fieldFilter">
+          <div class="midField" *ngFor="let i of [0]">
+            <p>{{ formFields[i].label }}:</p>
+            <mat-form-field appearance="outline" class="smallMat">
+              <input matInput [type]="formFields[i].type" [formControlName]="formFields[i].property"
+                (keyup)="applyFilterPopUp()" />
+            </mat-form-field>
+          </div>
+          <div class="midField" *ngFor="let i of [9]">
+            <p>{{ formFields[i].label }}:</p>
+            <mat-form-field appearance="outline" class="smallMat">
+              <mat-select formcontrolName="location" [(value)]="selectedLocation"
+                (selectionChange)="applyFilterPopUp()">
+                <mat-option *ngFor="let item of locationsToSelect" [value]="item">{{item}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="fieldFilter">
+          <div class="midField" *ngFor="let i of [2]">
+            <p>{{ formFields[i].label }}:</p>
+            <mat-form-field appearance="outline" class="smallMat">
+              <input matInput [type]="formFields[i].type" [formControlName]="formFields[i].property"
+                (keyup)="applyFilterPopUp()" />
+            </mat-form-field>
+          </div>
+          <div class="midField" *ngFor="let i of [5]">
+            <p>{{ formFields[i].label }}:</p>
+            <mat-form-field appearance="outline" class="smallMat">
+              <mat-select [(value)]="selectedStatusDevelopment" (selectionChange)="applyFilterPopUp()">
+                <mat-option *ngFor="let item of statusDevelopmentToSelect" [value]="item">{{item}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="fieldFilter">
+          <div class="midField">
+            <p>{{ formFields[4].label }}:</p>
+            <mat-form-field appearance="outline" class="smallMat">
+              <mat-label>Enter a date range</mat-label>
+              <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+                <input matStartDate formControlName="start" placeholder="Start date" (dateChange)="applyFilterPopUp()">
+                <input matEndDate formControlName="end" placeholder="End date" (dateChange)="applyFilterPopUp()">
+              </mat-date-range-input>
+              <mat-hint>DD/MM/YYYY – DD/MM/YYYY</mat-hint>
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-date-range-picker #picker></mat-date-range-picker>
+
+              <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
+              <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="midField" *ngFor="let i of [12]">
+            <p>{{ formFields[i].label }}:</p>
+            <mat-form-field appearance="outline" class="smallMat">
+              <mat-select formcontrolName="free" [(value)]="selectedFree" (selectionChange)="applyFilterPopUp()">
+                <mat-option *ngFor="let item of ['','Yes','No']" [value]="item">{{item}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="fieldFilter">
+          <div class="midField" *ngFor="let i of [6]">
+            <p>{{ formFields[i].label }}:</p>
+            <mat-form-field appearance="outline" class="smallMat">
+              <mat-select formcontrolName="domain" [(value)]="selectedDomain"
+                (selectionChange)="changeDomain(); applyFilterPopUp();" multiple>
+                <mat-option *ngFor="let item of domainToSelect" [value]="item">{{item}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="midField" *ngFor="let i of [7]">
+            <p>{{ formFields[i].label }}:</p>
+            <mat-form-field appearance="outline" class="smallMat">
+              <mat-select formcontrolName="subDomain" [(value)]="selectedSubDomain" multiple
+                (selectionChange)="applyFilterPopUp()">
+                <mat-option *ngFor="let item of subDomainToSelect" [value]="item">{{item}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="fieldFilter">
+          <div class="midField" *ngFor="let i of [13]">
+            <p>{{ formFields[i].label }}:</p>
+            <mat-form-field appearance="outline" class="smallMat">
+              <mat-select formcontrolName="version" [(value)]="selectedVersion" (selectionChange)="applyFilterPopUp();"
+                multiple>
+                <mat-option *ngFor="let item of versionToSelect" [value]="item">{{item}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="midField" *ngFor="let i of [14]">
+            <p>{{ formFields[i].label }}:</p>
+            <div appearance="outline" class="smallMat">
+              <mat-form-field appearance="outline" class="allMat">
+                <input matInput [type]="formFields[i].type" [formControlName]="formFields[i].property"
+                  (change)="applyFilterPopUp()" [max]="maxDownloads" [min]="minDownloads" hidden />
+                <div class="sliders">
+                  <div class="midMat">
+                    <p>MAX downloads: {{maxDownloadsInput}}</p>
+                    <input class="allMat" type="range" [min]="minDownloads" [max]="maxDownloads" [value]="maxDownloads"
+                      id="myRange" (change)="changeMaxDownloads($event)" #maxDownloadsHTML>
+                  </div>
+                  <div class="midMat">
+                    <p>MIN downloads: {{minDownloadsInput}}</p>
+                    <input class="minRange" type="range" [min]="minDownloads" [max]="maxDownloads"
+                      [value]="minDownloads" id="myRange" (change)="changeMinDownloads($event)" #minDownloadsHTML>
+                  </div>
+                </div>
+              </mat-form-field>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="fieldFilter">
+          <div class="midField" *ngFor="let i of [8]">
+            <p>{{ formFields[i].label }}:</p>
+            <mat-form-field appearance="outline" class="smallMat">
+              <mat-select formcontrolName="funcionality" [(value)]="selectedFuncionality" multiple
+                (selectionChange)="applyFilterPopUp()">
+                <mat-option *ngFor="let item of funcionalityToSelect" [value]="item">{{item}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="midField" *ngFor="let i of [3]">
+            <p>{{ formFields[i].label }}:</p>
+            <mat-form-field appearance="outline" class="smallMat">
+              <mat-select formcontrolName="domain" [(value)]="selectedLanguage" multiple
+                (selectionChange)="applyFilterPopUp()">
+                <mat-option *ngFor="let item of languageToSelect" [value]="item">{{item}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="fieldFilter" >
+          <div class="midField" *ngFor="let i of [15]">
+            <p>{{ formFields[i].label }}:</p>
+            <mat-form-field appearance="outline" class="smallMat">
+              <input matInput [type]="formFields[i].type" [formControlName]="formFields[i].property"
+                (keyup)="applyFilterPopUp()" />
+            </mat-form-field>
+          </div>
+
+          <div class="midField" *ngFor="let i of [16]">
+            <p>{{ formFields[i].label }}:</p>
+            <mat-form-field appearance="outline" class="smallMat">
+              <mat-select formcontrolName="ServiceType" [(value)]="selectedServiceType" multiple
+                (selectionChange)="applyFilterPopUp()">
+                <mat-option value="Commodity">Commodity</mat-option>
+                <mat-option value="NotCommodity">NotCommodity</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="btn-div" *ngIf="false">
+          <button mat-mini-fab color="primary" (click)="this.clearFilterFormGroup()">
+            <mat-icon>undo</mat-icon>
+          </button>
+          <button mat-mini-fab color="success" (click)="applyFilterPopUp()">
+            <mat-icon>check</mat-icon>
+          </button>
+        </div>
+
+      </form>
+    </mat-dialog-content>
+    <ng-container></ng-container>
+  </div>
+
+  <app-table #tableServices [config]="servicesConfig" [data]="services" [isLoadingTable]="isTableLoading"
+    (action)="actions($event)">
+  </app-table>
+
+</div>
+
+<div class="footer">
+  <div class="copyright" >
+    <span >
+      <a href="https://www.auroral.eu/" target="_blank" rel="noopener noreferrer" style="color: #348c8d;">AURORAL</a> © 2022</span>
+  </div>
+  <div class="sub-footer-text">
+    <p>Privacy disclaimer: Please note that all service providers in the AURORAL Service Store have explicitly agreed to
+      make their service/s publicly discoverable. They can withdraw this agreement at any moment by making their
+      services undiscoverable. AURORAL Service Store does not persist any information about services.</p>
+  </div>
+  <div class="sub-footer">
+    <img class="bandeira" src="assets/bandeira.png"  alt="image of UE">
+  </div>
+</div>
+
+<ng-template #modalService class="popUp">
+  <div class="title" mat-dialog-title>
+    <h1 class="display">Display service</h1>
+    <button mat-icon-button mat-dialog-close>
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <mat-dialog-content>
+    <form [formGroup]="editFormGroup">
+      <div class="field">
+        <div class="midField" *ngFor="let i of [0,9]">
+          <p>{{ formFields[i].label }}:</p>
+          <mat-form-field appearance="outline" class="smallMat">
+            <input matInput [type]="formFields[i].type" [formControlName]="formFields[i].property" />
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="midField" *ngFor="let i of [2,10]">
+          <p *ngIf="i!=100">{{ formFields[i].label }}:</p>
+          <p *ngIf="i==100"><a href="{{URLtoPOP}}"  target="_blank" rel="noopener noreferrer" style="color: #348c8d;">{{ formFields[i].label }}:</a></p>
+          <mat-form-field appearance="outline" class="smallMat" (click)="toURL(URLtoPOP)">
+            <input *ngIf="i!=10" matInput [type]="formFields[i].type" [formControlName]="formFields[i].property" />
+            <a class="url-to-pop" *ngIf="i==10" [style.color]="'#348c8d !important'" [style.text-decoration]="'underline'"
+              href="{{URLtoPOP}}"  target="_blank" rel="noopener noreferrer" style="color: #348c8d;">{{ URLtoPOP + 'a' }}
+              <input hidden *ngIf="i==10" matInput [type]="formFields[i].type" 
+              [style.color]="'#348c8d !important'" [style.text-decoration]="'underline'"    
+              [formControlName]="formFields[i].property" />
+
+            </a>
+            
+            
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="midField" *ngFor="let i of [4,5]">
+          <p>{{ formFields[i].label }}:</p>
+          <mat-form-field appearance="outline" class="smallMat">
+            <input matInput [type]="formFields[i].type" [formControlName]="formFields[i].property" />
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="midField" *ngFor="let i of [6,7]">
+          <p>{{ formFields[i].label }}:</p>
+          <mat-form-field appearance="outline" class="smallMat">
+            <input matInput [type]="formFields[i].type" [formControlName]="formFields[i].property" />
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="midField" *ngFor="let i of [3,12]">
+          <p>{{ formFields[i].label }}:</p>
+          <mat-form-field appearance="outline" class="smallMat">
+            <input matInput [type]="formFields[i].type" [formControlName]="formFields[i].property" />
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="field">
+        <div class="midField" *ngFor="let i of [13,14]">
+          <p>{{ formFields[i].label }}:</p>
+          <mat-form-field appearance="outline" class="smallMat">
+            <input matInput [type]="'text'" [formControlName]="formFields[i].property" />
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field" *ngFor="let i of [16]">
+          <p class="calibri">{{ formFields[i].label }}:</p>
+          <textarea class="largeMat calibri" name="text" cols="90" rows="2" [formControlName]="formFields[i].property">
+          </textarea>
+        </div>
+      </div>
+
+      <div class="field" *ngFor="let i of [8,11,1]">
+        <p class="calibri">{{ formFields[i].label }}:</p>
+        <textarea class="largeMat calibri" name="text" cols="90" rows="2" [formControlName]="formFields[i].property">
+          </textarea>
+      </div>
+    </form>
+  </mat-dialog-content>
+  <ng-container></ng-container>
+</ng-template>
+
+
+<ng-template #modalFilter>
+  <div class="title" mat-dialog-title>
+    <h1>Columns to filter</h1>
+    <button mat-icon-button mat-dialog-close>
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <mat-dialog-content>
+    <form [formGroup]="filterFormGroup">
+      <div class="fieldFilter">
+        <div class="midField" *ngFor="let i of [0]">
+          <p>{{ formFields[i].label }}:</p>
+          <mat-form-field appearance="outline" class="smallMat">
+            <input matInput [type]="formFields[i].type" [formControlName]="formFields[i].property" />
+          </mat-form-field>
+        </div>
+        <div class="midField" *ngFor="let i of [9]">
+          <p>{{ formFields[i].label }}:</p>
+          <mat-form-field appearance="outline" class="smallMat">
+            <mat-select formcontrolName="location" [(value)]="selectedLocation">
+              <mat-option *ngFor="let item of locationsToSelect" [value]="item">{{item}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+      </div>
+
+      <div class="fieldFilter">
+        <div class="midField" *ngFor="let i of [2]">
+          <p>{{ formFields[i].label }}:</p>
+          <mat-form-field appearance="outline" class="smallMat">
+            <input matInput [type]="formFields[i].type" [formControlName]="formFields[i].property" />
+          </mat-form-field>
+        </div>
+        <div class="midField" *ngFor="let i of [5]">
+          <p>{{ formFields[i].label }}:</p>
+          <mat-form-field appearance="outline" class="smallMat">
+            <mat-select [(value)]="selectedStatusDevelopment">
+              <mat-option *ngFor="let item of statusDevelopmentToSelect" [value]="item">{{item}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="fieldFilter">
+        <div class="midField">
+          <p>{{ formFields[4].label }}:</p>
+          <mat-form-field appearance="outline" class="smallMat">
+            <mat-label>Enter a date range</mat-label>
+            <mat-date-range-input [formGroup]="range" [rangePicker]="picker2">
+              <input matStartDate formControlName="start" placeholder="Start date">
+              <input matEndDate formControlName="end" placeholder="End date">
+            </mat-date-range-input>
+            <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker2></mat-date-range-picker>
+
+            <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
+            <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="midField" *ngFor="let i of [12]">
+          <p>{{ formFields[i].label }}:</p>
+          <mat-form-field appearance="outline" class="smallMat">
+            <mat-select formcontrolName="free" [(value)]="selectedFree">
+              <mat-option *ngFor="let item of ['','Yes','No']" [value]="item">{{item}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+      </div>
+
+      <div class="fieldFilter">
+        <div class="midField" *ngFor="let i of [6]">
+          <p>{{ formFields[i].label }}:</p>
+          <mat-form-field appearance="outline" class="smallMat">
+            <mat-select formcontrolName="domain" [(value)]="selectedDomain" (selectionChange)="changeDomain()" multiple>
+              <mat-option *ngFor="let item of domainToSelect" [value]="item">{{item}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="midField" *ngFor="let i of [7]">
+          <p>{{ formFields[i].label }}:</p>
+          <mat-form-field appearance="outline" class="smallMat">
+            <mat-select formcontrolName="subDomain" [(value)]="selectedSubDomain" multiple>
+              <mat-option *ngFor="let item of subDomainToSelect" [value]="item">{{item}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+
+
+
+
+      <div class="fieldFilter" *ngFor="let i of [8]">
+        <p>{{ formFields[i].label }}:</p>
+        <mat-form-field appearance="outline" class="largeMatFilter">
+          <mat-select formcontrolName="funcionality" [(value)]="selectedFuncionality" multiple>
+            <mat-option *ngFor="let item of funcionalityToSelect" [value]="item">{{item}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="fieldFilter" *ngFor="let i of [3]">
+        <p>{{ formFields[i].label }}:</p>
+        <mat-form-field appearance="outline" class="largeMatFilter">
+          <mat-select formcontrolName="domain" [(value)]="selectedLanguage" multiple>
+            <mat-option *ngFor="let item of languageToSelect" [value]="item">{{item}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+
+
+      <div class="btn-div">
+        <button mat-mini-fab color="primary" (click)="this.clearFilterFormGroup()">
+          <mat-icon>undo</mat-icon>
+        </button>
+        <button mat-mini-fab color="success" (click)="applyFilterPopUp()">
+          <mat-icon>check</mat-icon>
+        </button>
+      </div>
+
+    </form>
+  </mat-dialog-content>
+  <ng-container></ng-container>
+</ng-template>
